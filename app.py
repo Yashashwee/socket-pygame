@@ -1,13 +1,14 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask import Flask, render_template, make_response, redirect
+from flask_socketio import SocketIO, send, emit
+import os
 
 app = Flask(__name__)
 sio = SocketIO(app)
 
 
-@sio.event
-def connect(sid):
-    print("connedted ", sid)
+@app.route('/')
+def index():
+    return "Hello"
 
 
 @sio.on('message')
@@ -26,10 +27,5 @@ def nextKey(key):
     sio.emit('begin', key)
 
 
-@app.route("/")
-def index():
-    return "Connected"
-
-
 if __name__ == '__main__':
-    sio.run(app)
+    sio.run(app, debug=True, host='0.0.0.0', port=5004)

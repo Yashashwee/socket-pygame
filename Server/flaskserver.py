@@ -1,36 +1,20 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO
+from flask import Flask, render_template, make_response, redirect
+from flask_socketio import SocketIO, send, emit
+import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
-sio = SocketIO(app)
+socketio = SocketIO(app)
 
 
-@sio.event
-def connect(sid):
-    print("connedted ", sid)
-
-
-@sio.on('message')
-def print_message(sid, message):
-    print(sid, " ", message)
-
-
-@sio.on('input')
-def print_number(sid, num):
-    sio.emit('begin', {"gameData": "dummy"})
-
-
-@sio.on('nextkey')
-def nextKey(key):
-    print(key)
-    sio.emit('begin', key)
-
-
-@app.route("/")
+@app.route('/')
 def index():
-    return "Connected"
+    return "Hello"
 
 
-if __name__ == '__main__':
-    sio.run(app)
+@socketio.on("message")
+def handleMessage(data):
+    emit("new_message", data, broadcast=True)
+
+
+if __name__ == "__main__":
+    socketio.run(app, debug=True, host='0.0.0.0', port=5004)
