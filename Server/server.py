@@ -28,7 +28,7 @@ async def print_number(sid, num):
 async def nextKey(sid, key):
     print(key)
 
-    await sio.emit('begin', {"gameData": key}, to=sid)
+    await sio.emit('begin', {sid: key})
 
 app.router.add_get('/', index)
 

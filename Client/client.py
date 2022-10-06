@@ -9,7 +9,6 @@ sio = socketio.Client()
 @sio.event
 def connect():
     print("I'm connected!")
-    sio.emit('message', {'userKey': 'streaming_api_key'})
     # p = int(input("Testing emit enter number greater than 0 "))
     # if p > 0:
     #     sio.emit('input', {'number': p})
@@ -349,5 +348,5 @@ def main():
 
 
 if __name__ == "__main__":
-    sio.connect('http://0.0.0.0:8080')
+    sio.connect('http://127.0.0.1:5000')
     main()
