@@ -15,10 +15,12 @@ sio = socketio.Client()
 def connect():
     print("I'm connected!")
 
+
     # p = int(input("Testing emit enter number greater than 0 "))
     # if p > 0:
     #     sio.emit('input', {'number': p})
 gdata = None
+user = None
 
 
 @sio.on('begin')
@@ -27,8 +29,21 @@ def beginGame(data):
     gdata = data
 
 
+@sio.on('userresp')
+def resp(data):
+    global user
+    print(data)
+    if user != None and data["name"] == user["name"]:
+        user = data
+
+
 def main():
     """ Main Program """
+    global user
+    pname = input("Enter player name ")
+    choice = int(input("Enter 0 for player 1 for danner "))
+    user = {"name": pname, "choice": choice}
+    sio.emit("user", user)
 
     # Call this function so the Pygame library can initialize itself
     pygame.init()
@@ -60,54 +75,62 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            if user["choice"] == 0:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        player.changespeed(-5, 0)
+                    if event.key == pygame.K_RIGHT:
+                        player.changespeed(5, 0)
+                    if event.key == pygame.K_UP:
+                        player.changespeed(0, -5)
+                    if event.key == pygame.K_DOWN:
+                        player.changespeed(0, 5)
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    player.changespeed(-5, 0)
-                if event.key == pygame.K_RIGHT:
-                    player.changespeed(5, 0)
-                if event.key == pygame.K_UP:
-                    player.changespeed(0, -5)
-                if event.key == pygame.K_DOWN:
-                    player.changespeed(0, 5)
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT:
+                        player.changespeed(5, 0)
+                    if event.key == pygame.K_RIGHT:
+                        player.changespeed(-5, 0)
+                    if event.key == pygame.K_UP:
+                        player.changespeed(0, 5)
+                    if event.key == pygame.K_DOWN:
+                        player.changespeed(0, -5)
+            else:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        danner.changespeed(-5, 0)
+                    if event.key == pygame.K_RIGHT:
+                        danner.changespeed(5, 0)
+                    if event.key == pygame.K_UP:
+                        danner.changespeed(0, -5)
+                    if event.key == pygame.K_DOWN:
+                        danner.changespeed(0, 5)
 
-                if event.key == pygame.K_a:
-                    danner.changespeed(-5, 0)
-                if event.key == pygame.K_d:
-                    danner.changespeed(5, 0)
-                if event.key == pygame.K_w:
-                    danner.changespeed(0, -5)
-                if event.key == pygame.K_s:
-                    danner.changespeed(0, 5)
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    player.changespeed(5, 0)
-                if event.key == pygame.K_RIGHT:
-                    player.changespeed(-5, 0)
-                if event.key == pygame.K_UP:
-                    player.changespeed(0, 5)
-                if event.key == pygame.K_DOWN:
-                    player.changespeed(0, -5)
-
-                if event.key == pygame.K_a:
-                    danner.changespeed(5, 0)
-                if event.key == pygame.K_d:
-                    danner.changespeed(-5, 0)
-                if event.key == pygame.K_w:
-                    danner.changespeed(0, 5)
-                if event.key == pygame.K_s:
-                    danner.changespeed(0, -5)
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT:
+                        danner.changespeed(5, 0)
+                    if event.key == pygame.K_RIGHT:
+                        danner.changespeed(-5, 0)
+                    if event.key == pygame.K_UP:
+                        danner.changespeed(0, 5)
+                    if event.key == pygame.K_DOWN:
+                        danner.changespeed(0, -5)
 
         # --- Game Logic ---
 
         player.move_player(current_room.wall_list, danner)
 
         danner.move_danner(current_room.wall_list, player)
-
-        sio.emit("nextkey", {"Player": [
-            player.rect.x, player.rect.y], "Danner": None, "frameNo": frameNo})
+        if user["choice"] == 0:
+            danner.set_position(gdata["Danner"])
+            sio.emit("nextkey", {"Player": [
+                player.rect.x, player.rect.y], "Danner": None, "frameNo": frameNo, "winner": None})
+        else:
+            player.set_position(gdata["Player"])
+            sio.emit("nextkey", {"Player": None, "Danner": [
+                     danner.rect.x, danner.rect.y], "frameNo": frameNo, "winner": None})
         screen.fill(BLACK)
-        if gdata != None and frameNo-gdata["frameNo"] > 7:
+        if gdata != None and frameNo-gdata["frameNo"] > 2:
             player.set_position(gdata["Player"])
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)
@@ -119,6 +142,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # sio.connect('http://0.0.0.0:5004')
-    sio.connect("https://socket-game-project.herokuapp.com/")
+    sio.connect('http://0.0.0.0:5004')
+    # sio.connect("https://socket-game-project.herokuapp.com/")
     main()
