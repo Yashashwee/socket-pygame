@@ -12,13 +12,13 @@ def index():
 
 
 @sio.on('message')
-def print_message(sid, message):
-    print(sid, " ", message)
+def print_message(message):
+    print(message)
 
 
 @sio.on('input')
 def print_number(sid, num):
-    sio.emit('begin', {"gameData": "dummy"})
+    sio.emit('begin', None)
 
 
 @sio.on('nextkey')

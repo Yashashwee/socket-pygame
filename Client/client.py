@@ -9,15 +9,17 @@ sio = socketio.Client()
 @sio.event
 def connect():
     print("I'm connected!")
+
     # p = int(input("Testing emit enter number greater than 0 "))
     # if p > 0:
     #     sio.emit('input', {'number': p})
+gdata = [[50, 50], [100, 100]]
 
 
 @sio.on('begin')
 def beginGame(data):
-    print("starting game")
-    print(data)
+    global gdata
+    gdata = data
 
 
 # asyncio.run(sio.connect('http://0.0.0.0:8080'))
@@ -81,10 +83,15 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y
         self.rect.x = x
 
+    def set_position(self, Coord=None):
+        if Coord != None or len(Coord) != 0:
+            self.rect.x = Coord[0]
+            self.rect.y = Coord[1]
+
     def changespeed(self, x, y):
         """ Change the speed of the player. Called with a keypress. """
-        self.change_x += x
-        self.change_y += y
+        self.change_x += 0.6*x
+        self.change_y += 0.6*y
 
     def move_player(self, walls, player):
         """ Find a new position for the player """
@@ -289,25 +296,35 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    sio.emit("nextkey", pygame.K_LEFT)
+                    # sio.emit("nextkey", pygame.K_LEFT)
                     player.changespeed(-5, 0)
                 if event.key == pygame.K_RIGHT:
-                    sio.emit("nextkey", pygame.K_RIGHT)
+                    # sio.emit("nextkey", pygame.K_RIGHT)
                     player.changespeed(5, 0)
                 if event.key == pygame.K_UP:
-                    sio.emit("nextkey", pygame.K_UP)
+                    # sio.emit("nextkey", pygame.K_UP)
                     player.changespeed(0, -5)
                 if event.key == pygame.K_DOWN:
-                    sio.emit("nextkey", pygame.K_DOWN)
+                    # sio.emit("nextkey", pygame.K_DOWN)
                     player.changespeed(0, 5)
 
                 if event.key == pygame.K_a:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
+                    # print("nexKey")
                     danner.changespeed(-5, 0)
                 if event.key == pygame.K_d:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(5, 0)
+                    # print(danner.rect.x)
                 if event.key == pygame.K_w:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(0, -5)
                 if event.key == pygame.K_s:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(0, 5)
 
             if event.type == pygame.KEYUP:
@@ -321,12 +338,20 @@ def main():
                     player.changespeed(0, -5)
 
                 if event.key == pygame.K_a:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(5, 0)
                 if event.key == pygame.K_d:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(-5, 0)
                 if event.key == pygame.K_w:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(0, 5)
                 if event.key == pygame.K_s:
+                    # sio.emit("nextkey", [gdata[0],
+                    #  [danner.rect.x, danner.rect.y]])
                     danner.changespeed(0, -5)
 
         # --- Game Logic ---
@@ -334,6 +359,9 @@ def main():
         player.move_player(current_room.wall_list, danner)
 
         danner.move_danner(current_room.wall_list, player)
+        # print(danner.rect.x)
+        sio.emit("nextkey", [gdata[0],
+                             [danner.rect.x, danner.rect.y]])
 
         screen.fill(BLACK)
 
@@ -341,12 +369,16 @@ def main():
         current_room.wall_list.draw(screen)
 
         pygame.display.flip()
+        if len(gdata) != 0:
+            player.set_position(gdata[0])
+            danner.set_position(gdata[1])
 
-        clock.tick(60)
+        clock.tick(20)
 
     pygame.quit()
 
 
 if __name__ == "__main__":
-    sio.connect('http://127.0.0.1:5000')
+    sio.connect('http://0.0.0.0:5004')
+    # sio.connect("https://socket-game-project.herokuapp.com/")
     main()
