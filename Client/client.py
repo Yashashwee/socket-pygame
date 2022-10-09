@@ -1,3 +1,9 @@
+import collections
+try:
+    from collections import abc
+    collections.MutableMapping = abc.MutableMapping
+except:
+    pass
 import pygame
 import sys
 from players import Player
