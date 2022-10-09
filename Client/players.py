@@ -3,8 +3,8 @@ import sys
 from rgb import PURPLE, BLACK, BLUE, RED, WHITE, GREEN
 
 # Background Image
-BACKGROUND_IMG = pygame.image.load("gameover.jpg")
-BACKGROUND_IMG2 = pygame.image.load("gamewin.jpg")
+#BACKGROUND_IMG = pygame.image.load("gameover.jpg")
+#BACKGROUND_IMG2 = pygame.image.load("gamewin.jpg")
 
 
 class Player(pygame.sprite.Sprite):
