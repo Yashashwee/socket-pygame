@@ -70,7 +70,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for server</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">abc</span>
+    <span class="n">collections</span><span class="o">.</span><span class="n">MutableMapping</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">MutableMapping</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">pygame</span>
 <span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">web</span>
 <span class="kn">import</span> <span class="nn">socketio</span>
@@ -83,21 +89,36 @@
 
 
 <div class="viewcode-block" id="index"><a class="viewcode-back" href="../server.html#server.index">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">req</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter: req</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;hello&quot;</span></div>
 
 
 <div class="viewcode-block" id="print_message"><a class="viewcode-back" href="../server.html#server.print_message">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">print_message</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter1: sid</span>
+<span class="sd">    :parameter2: message</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="print_number"><a class="viewcode-back" href="../server.html#server.print_number">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">print_number</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter1: sid</span>
+<span class="sd">    :parameter2: num</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;gameData&quot;</span><span class="p">:</span> <span class="s2">&quot;dummy&quot;</span><span class="p">})</span></div>
 
 
 <div class="viewcode-block" id="nextKey"><a class="viewcode-back" href="../server.html#server.nextKey">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;nextkey&#39;</span><span class="p">)</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">nextKey</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter1: sid</span>
+<span class="sd">    :parameter2: key</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">sid</span><span class="p">:</span> <span class="n">key</span><span class="p">})</span></div>

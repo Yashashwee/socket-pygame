@@ -23,6 +23,9 @@ def index():
 
 @sio.on('user')
 def choice(data):
+    """
+    :parameter: data
+    """
     global players
     global gdata
     # print(data)
@@ -43,16 +46,26 @@ def choice(data):
 
 @sio.on('message')
 def print_message(message):
+    """
+    :parameter: message
+    """
     print(message)
 
 
 @sio.on('input')
 def print_number(sid, num):
+    """
+    :parameter 1: sid
+    :parameter 2: num
+    """
     sio.emit('begin', None)
 
 
 @sio.on('nextkey')
 def nextKey(data):
+    """
+    :parameter: data
+    """
     global gdata
     gdata["frameNo"] = data["frameNo"]
     if data["Player"] == None:

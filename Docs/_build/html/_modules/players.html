@@ -83,11 +83,12 @@
     <span class="sd">&quot;&quot;&quot; This class represents the bar at the bottom that the</span>
 <span class="sd">    player controls &quot;&quot;&quot;</span>
 
-    <span class="c1"># Checking whether player is player or danner</span>
     <span class="n">player_color</span> <span class="o">=</span> <span class="n">WHITE</span>
-    <span class="c1"># Set speed vector</span>
+    <span class="sd">&quot;&quot;&quot; Checking whether player is player or danner &quot;&quot;&quot;</span>
     <span class="n">change_x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot; Set speed vector &quot;&quot;&quot;</span>
     <span class="n">change_y</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot; Set speed vector &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Constructor function &quot;&quot;&quot;</span>
@@ -108,18 +109,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
 
 <div class="viewcode-block" id="Player.changespeed"><a class="viewcode-back" href="../players.html#players.Player.changespeed">[docs]</a>    <span class="k">def</span> <span class="nf">changespeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Change the speed of the player. Called with a keypress. &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; | Change the speed of the player. Called with a keypress. </span>
+<span class="sd">        </span>
+<span class="sd">        | parameter1: x</span>
+<span class="sd">        | parameter2: y</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">change_x</span> <span class="o">+=</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">change_y</span> <span class="o">+=</span> <span class="n">y</span></div>
 
 <div class="viewcode-block" id="Player.set_position"><a class="viewcode-back" href="../players.html#players.Player.set_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Coord</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; | Sets the position of the player.</span>
+<span class="sd">        | parameter: Coord set to None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">Coord</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">Coord</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Player.move_player"><a class="viewcode-back" href="../players.html#players.Player.move_player">[docs]</a>    <span class="k">def</span> <span class="nf">move_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Find a new position for the player &quot;&quot;&quot;</span>
-
+        <span class="sd">&quot;&quot;&quot; | Find a new position for the player </span>
+<span class="sd">        | parameter1: walls</span>
+<span class="sd">        | parameter2: player</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Move left/right</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_x</span>
 
@@ -157,8 +167,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Player.move_danner"><a class="viewcode-back" href="../players.html#players.Player.move_danner">[docs]</a>    <span class="k">def</span> <span class="nf">move_danner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Find a new position for the player &quot;&quot;&quot;</span>
-
+        <span class="sd">&quot;&quot;&quot; | Find a new position for the player </span>
+<span class="sd">        | parameter1: walls</span>
+<span class="sd">        | parameter2: player</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Move left/right</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_x</span>
 
@@ -196,6 +208,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Player.show_go_screen"><a class="viewcode-back" href="../players.html#players.Player.show_go_screen">[docs]</a>    <span class="k">def</span> <span class="nf">show_go_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Display the go screen &quot;&quot;&quot;</span>
         <span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">])</span>
         <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">BACKGROUND_IMG</span><span class="o">.</span><span class="n">convert</span><span class="p">(),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
@@ -219,6 +232,7 @@
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Player.show_win_screen"><a class="viewcode-back" href="../players.html#players.Player.show_win_screen">[docs]</a>    <span class="k">def</span> <span class="nf">show_win_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Display the win screen &quot;&quot;&quot;</span>
         <span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">])</span>
         <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">BACKGROUND_IMG2</span><span class="o">.</span><span class="n">convert</span><span class="p">(),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 

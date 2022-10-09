@@ -11,11 +11,12 @@ class Player(pygame.sprite.Sprite):
     """ This class represents the bar at the bottom that the
     player controls """
 
-    # Checking whether player is player or danner
     player_color = WHITE
-    # Set speed vector
+    """ Checking whether player is player or danner """
     change_x = 0
+    """ Set speed vector """
     change_y = 0
+    """ Set speed vector """
 
     def __init__(self, x, y, color):
         """ Constructor function """
@@ -36,18 +37,27 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = x
 
     def changespeed(self, x, y):
-        """ Change the speed of the player. Called with a keypress. """
+        """ | Change the speed of the player. Called with a keypress. 
+        
+        | parameter1: x
+        | parameter2: y
+        """
         self.change_x += x
         self.change_y += y
 
     def set_position(self, Coord=None):
+        """ | Sets the position of the player.
+        | parameter: Coord set to None
+        """
         if Coord != None or len(Coord) != 0:
             self.rect.x = Coord[0]
             self.rect.y = Coord[1]
 
     def move_player(self, walls, player):
-        """ Find a new position for the player """
-
+        """ | Find a new position for the player 
+        | parameter1: walls
+        | parameter2: player
+        """
         # Move left/right
         self.rect.x += self.change_x
 
@@ -85,8 +95,10 @@ class Player(pygame.sprite.Sprite):
             self.show_go_screen()
 
     def move_danner(self, walls, player):
-        """ Find a new position for the player """
-
+        """ | Find a new position for the player 
+        | parameter1: walls
+        | parameter2: player
+        """
         # Move left/right
         self.rect.x += self.change_x
 
@@ -124,6 +136,7 @@ class Player(pygame.sprite.Sprite):
             self.show_go_screen()
 
     def show_go_screen(self):
+        """ Display the go screen """
         screen = pygame.display.set_mode([800, 600])
         screen.blit(BACKGROUND_IMG.convert(), (0, 0))
 
@@ -147,6 +160,7 @@ class Player(pygame.sprite.Sprite):
         sys.exit()
 
     def show_win_screen(self):
+        """ Display the win screen """
         screen = pygame.display.set_mode([800, 600])
         screen.blit(BACKGROUND_IMG2.convert(), (0, 0))
 

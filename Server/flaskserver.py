@@ -1,3 +1,9 @@
+import collections
+try:
+    from collections import abc
+    collections.MutableMapping = abc.MutableMapping
+except:
+    pass
 from flask import Flask, render_template, make_response, redirect
 from flask_socketio import SocketIO, send, emit
 import os
@@ -13,6 +19,9 @@ def index():
 
 @socketio.on("message")
 def handleMessage(data):
+    """
+    :parameter: data
+    """
     emit("new_message", data, broadcast=True)
 
 

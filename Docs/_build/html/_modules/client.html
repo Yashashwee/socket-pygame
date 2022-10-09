@@ -106,12 +106,18 @@
 
 <div class="viewcode-block" id="beginGame"><a class="viewcode-back" href="../client.html#client.beginGame">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">beginGame</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter: data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">gdata</span>
     <span class="n">gdata</span> <span class="o">=</span> <span class="n">data</span></div>
 
 
 <div class="viewcode-block" id="error"><a class="viewcode-back" href="../client.html#client.error">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter: msg</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">global</span> <span class="n">player</span>
     <span class="k">global</span> <span class="n">danner</span>
@@ -120,6 +126,9 @@
 
 <div class="viewcode-block" id="resp"><a class="viewcode-back" href="../client.html#client.resp">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;userresp&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">resp</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :parameter: data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">user</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span>

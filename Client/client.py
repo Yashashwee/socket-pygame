@@ -34,12 +34,18 @@ user = None
 
 @sio.on('begin')
 def beginGame(data):
+    """
+    :parameter: data
+    """
     global gdata
     gdata = data
 
 
 @sio.on('error')
 def error(msg):
+    """
+    :parameter: msg
+    """
     print(msg)
     global player
     global danner
@@ -48,6 +54,9 @@ def error(msg):
 
 @sio.on('userresp')
 def resp(data):
+    """
+    :parameter: data
+    """
     global user
     print(data)
     if user != None and data["name"] == user["name"]:
