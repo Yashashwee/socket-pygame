@@ -53,6 +53,8 @@ def error(msg):
     global danner
     sio.emit("terminate", sio.sid)
     player.show_go_screen()
+    # pygame.quit()
+    # sys.exit(0)
 
 
 @sio.on('userresp')
@@ -182,6 +184,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # sio.connect('http://0.0.0.0:5004')
-    sio.connect("https://socket-game-project.herokuapp.com/")
+    sio.connect('http://0.0.0.0:5004')
+    # sio.connect("https://socket-game-project.herokuapp.com/")
     main()

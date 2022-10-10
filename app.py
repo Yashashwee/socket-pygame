@@ -12,15 +12,11 @@ app = Flask(__name__)
 sio = SocketIO(app)
 
 
-def add15(x):
-    return x+15
-
-
 def checkOverlap(player, danner):
     l1 = player
-    r1 = list(map(add15, player))
+    r1 = [l1[0]+15, l1[1]-15]
     l2 = danner
-    r2 = list(map(add15, danner))
+    r2 = [l2[0]+15, l2[1]-15]
     # If one rectangle is on left side of other
     if l1[0] > r2[0] or l2[0] > r1[0]:
         return False
