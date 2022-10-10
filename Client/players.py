@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite):
 
     def changespeed(self, x, y):
         """ | Change the speed of the player. Called with a keypress. 
-        
+
         | parameter1: x
         | parameter2: y
         """
@@ -64,8 +64,8 @@ class Player(pygame.sprite.Sprite):
         if(self.rect.x < 0):
             self.rect.x = 0
 
-        if(self.rect.x > 801):
-            self.show_win_screen()
+        # if(self.rect.x > 801):
+        #     self.show_win_screen()
 
         # Did this update cause us to hit a wall?
         block_hit_list = pygame.sprite.spritecollide(self, walls, False)
@@ -91,8 +91,8 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.rect.top = block.rect.bottom
 
-        if (pygame.sprite.collide_rect(self, player) == True):
-            self.show_go_screen()
+        # if (pygame.sprite.collide_rect(self, player) == True):
+        #     self.show_go_screen()
 
     def move_danner(self, walls, player):
         """ | Find a new position for the player 
@@ -132,8 +132,8 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.rect.top = block.rect.bottom
 
-        if (pygame.sprite.collide_rect(self, player) == True):
-            self.show_go_screen()
+        # if (pygame.sprite.collide_rect(self, player) == True):
+        #     self.show_go_screen()
 
     def show_go_screen(self):
         """ Display the go screen """

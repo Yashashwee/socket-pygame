@@ -20,6 +20,8 @@ frameDiff = 7
 player = Player(50, 50, WHITE)
 danner = Player(100, 100, RED)
 
+roleChoice = {0: player, 1: danner}
+
 
 @sio.event
 def connect():
@@ -49,6 +51,7 @@ def error(msg):
     print(msg)
     global player
     global danner
+    sio.emit("terminate", sio.sid)
     player.show_go_screen()
 
 
@@ -155,11 +158,20 @@ def main():
             sio.emit("nextkey", {"Player": None, "Danner": [
                      danner.rect.x, danner.rect.y], "frameNo": frameNo, "winner": None})
         screen.fill(BLACK)
-        if gdata != None and frameNo-gdata["frameNo"] > frameDiff:
-            if user["choice"] == 0:
-                player.set_position(gdata["Player"])
-            else:
-                danner.set_position(gdata["Danner"])
+        if gdata != None:
+            if gdata["winner"] != None:
+                print(gdata["winner"])
+                if user["choice"] == gdata["winner"]:
+                    roleChoice[gdata["winner"]].show_win_screen()
+                else:
+                    roleChoice[user["choice"]].show_go_screen()
+            if frameNo-gdata["frameNo"] > frameDiff:
+                if user["choice"] == 0:
+                    player.set_position(gdata["Player"])
+                else:
+                    danner.set_position(gdata["Danner"])
+                frameNo = gdata["frameNo"]
+
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)
 

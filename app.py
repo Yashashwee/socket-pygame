@@ -11,6 +11,27 @@ import os
 app = Flask(__name__)
 sio = SocketIO(app)
 
+
+def add15(x):
+    return x+15
+
+
+def checkOverlap(player, danner):
+    l1 = player
+    r1 = list(map(add15, player))
+    l2 = danner
+    r2 = list(map(add15, danner))
+    # If one rectangle is on left side of other
+    if l1[0] > r2[0] or l2[0] > r1[0]:
+        return False
+
+    # If one rectangle is above other
+    if r1[1] > l2[1] or r2[1] > l1[1]:
+        return False
+
+    return True
+
+
 players = []
 gdata = {"Player": [50, 50], "Danner": [
     100, 100], "frameNo": 0, "winner": None}
@@ -72,6 +93,10 @@ def nextKey(data):
         gdata["Danner"] = data["Danner"]
     else:
         gdata["Player"] = data["Player"]
+    if(checkOverlap(gdata["Player"], gdata["Danner"])):
+        gdata["winner"] = 1
+    if(gdata["Player"][0] > 801):
+        gdata["winner"] = 0
     sio.emit('begin', gdata)
 
 
@@ -80,6 +105,12 @@ def disconnect():
     global players
     sio.emit("error", "Other player diconneted")
     players = []
+
+
+@sio.on('terminate')
+def terminate(sid):
+    print(sid)
+    sio.close_room(sid)
 
 
 if __name__ == '__main__':
