@@ -105,6 +105,8 @@ def disconnect():
     global players
     sio.emit("error", "Other player diconneted")
     players = []
+    gdata = {"Player": [50, 50], "Danner": [
+        100, 100], "frameNo": 0, "winner": None}
 
 
 @sio.on('terminate')

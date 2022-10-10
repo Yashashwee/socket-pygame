@@ -182,6 +182,6 @@ def main():
 
 
 if __name__ == "__main__":
-    sio.connect('http://0.0.0.0:5004')
-    # sio.connect("https://socket-game-project.herokuapp.com/")
+    # sio.connect('http://0.0.0.0:5004')
+    sio.connect("https://socket-game-project.herokuapp.com/")
     main()
