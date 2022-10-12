@@ -22,10 +22,12 @@ danner = Player(100, 100, RED)
 
 roleChoice = {0: player, 1: danner}
 
-
+temp=None
 @sio.event
 def connect():
-    print("I'm connected!")
+    global temp
+    temp="I'm connected!"
+    print(temp)
 
     # p = int(input("Testing emit enter number greater than 0 "))
     # if p > 0:
