@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
     def move_player(self, walls, player):
         """ | Find a new position for the player 
         | parameter1: walls
-        | parameter2: player
+        | parameter2: player2 which is danner
         """
         # Move left/right
         self.rect.x += self.change_x
@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite):
         #     self.show_go_screen()
 
     def move_danner(self, walls, player):
-        """ | Find a new position for the player 
+        """ | Find a new position for the danner 
         | parameter1: walls
         | parameter2: player
         """
