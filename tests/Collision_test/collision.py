@@ -1,28 +1,23 @@
 import math
 
-def checkOverlap(player1_pos, player2_pos):
+def checkOverlap(player, danner):
 	"""Get player 1 postion and its cemter of mass"""
 	"""Get player 2 postion and its cemter of mass"""
 	"""Check collision using the distance logic"""
-	
-	p1_x = player1_pos[0]
-	p1_y = player1_pos[1]
-	p2_x = player2_pos[0]
-	p2_y = player2_pos[1]
+	l1 = player
+	r1 = [l1[0]+15, l1[1]-15]
+	l2 = danner
+	r2 = [l2[0]+15, l2[1]-15]
 
-	com_p1_x = p1_x + 7.5
-	com_p1_y = p1_y + 7.5
-
-	com_p2_x = p2_x + 7.5
-	com_p2_y = p2_y + 7.5
-
-	# print("center of mass of p1 = ", com_p1_x, com_p1_y)
-	# print("center of mass of p2 = ", com_p2_x, com_p2_y)
-
-	if(math.sqrt((com_p2_y-com_p1_y)**2 + (com_p2_x-com_p1_x)**2) <= 15):
-		return True
-	else:
+	# If one rectangle is on left side of other
+	if l1[0] > r2[0] or l2[0] > r1[0]:
 		return False
+
+	# If one rectangle is above other
+	if r1[1] > l2[1] or r2[1] > l1[1]:
+		return False
+
+	return True
 
 # p1=[]
 # p2=[]
