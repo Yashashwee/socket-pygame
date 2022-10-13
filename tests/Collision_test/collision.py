@@ -16,8 +16,8 @@ def checkOverlap(player1_pos, player2_pos):
 	com_p2_x = p2_x + 7.5
 	com_p2_y = p2_y + 7.5
 
-	print("center of mass of p1 = ", com_p1_x, com_p1_y)
-	print("center of mass of p2 = ", com_p2_x, com_p2_y)
+	# print("center of mass of p1 = ", com_p1_x, com_p1_y)
+	# print("center of mass of p2 = ", com_p2_x, com_p2_y)
 
 	if(math.sqrt((com_p2_y-com_p1_y)**2 + (com_p2_x-com_p1_x)**2) <= 15):
 		return True
