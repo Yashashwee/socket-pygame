@@ -7,12 +7,12 @@ except:
     pass
 import pygame
 import sys
+import os
 from players import Player
 from room import Room1
 from rgb import WHITE, RED, BLACK
 import socketio
 import pygame
-import sys
 #import asyncio
 
 sio = socketio.Client()
@@ -55,9 +55,9 @@ def error(msg):
     global player
     global danner
     sio.emit("terminate", sio.sid)
-    player.show_go_screen()
+    # player.show_go_screen()
     # pygame.quit()
-    # sys.exit(0)
+    os._exit(1)
 
 
 @sio.on('userresp')
@@ -246,9 +246,13 @@ def main():
                     roleChoice[user["choice"]].show_go_screen()
             if frameNo-gdata["frameNo"] > frameDiff:
                 if user["choice"] == 0:
-                    player.set_position(gdata["Player"])
+                    #Rollback:
+                    if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
+                        player.set_position(gdata["Player"])
                 else:
-                    danner.set_position(gdata["Danner"])
+                    #Rollback
+                    if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
+                        danner.set_position(gdata["Danner"])
                 frameNo = gdata["frameNo"]
 
             if frameNo-gdata["frameNo"] < frameDiff:
@@ -259,16 +263,16 @@ def main():
                     #Prediction logic for player 
                     player.set_position(predict_player_pos([player.rect.x,player.rect.y],[danner.rect.x,danner.rect.y],0))
 
-            if frameNo-gdata["frameNo"] <= frameDiff:
-                if user["choice"] == 0:
-                    #Rollback:
-                    if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
-                        player.set_position(gdata["Player"])
-                else:
-                    #Rollback
-                    if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
-                        danner.set_position(gdata["Danner"])
-                frameNo = gdata["frameNo"]
+            # if frameNo-gdata["frameNo"] <= frameDiff:
+            #     if user["choice"] == 0:
+            #         #Rollback:
+            #         if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
+            #             player.set_position(gdata["Player"])
+            #     else:
+            #         #Rollback
+            #         if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
+            #             danner.set_position(gdata["Danner"])
+            #     frameNo = gdata["frameNo"]
 
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)
