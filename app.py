@@ -28,7 +28,7 @@ def checkOverlap(player, danner):
 
     return True
 
-
+#initializing initial state
 players = []
 gdata = {"Player": [50, 50], "Danner": [
     100, 100], "frameNo": 0, "winner": None}
