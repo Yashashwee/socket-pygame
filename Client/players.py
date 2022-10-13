@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 from rgb import PURPLE, BLACK, BLUE, RED, WHITE, GREEN
 
 # Background Image
@@ -157,7 +158,8 @@ class Player(pygame.sprite.Sprite):
 
             clock = pygame.time.Clock()
             clock.tick(60)
-        sys.exit()
+        # sys.exit()
+        os._exit(1)
 
     def show_win_screen(self):
         """ Display the win screen """
@@ -181,4 +183,5 @@ class Player(pygame.sprite.Sprite):
 
             clock = pygame.time.Clock()
             clock.tick(60)
-        sys.exit()
+        # sys.exit()
+        os._exit(1)
