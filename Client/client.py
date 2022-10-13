@@ -74,6 +74,11 @@ def distance(x1,y1,x2,y2):
     return math.sqrt((y1-y2)**2 + (x1-x2)**2)
 
 def predict_player_pos(pos1,pos2,val):
+    """ Basically the objective of player is to
+        maximize its distance from danner and 
+        minimize its distance from winning position
+        that has been implemented
+        """
     if(val==0):# its a player
         points = []
         x = pos1[0]
