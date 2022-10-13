@@ -108,6 +108,7 @@ def disconnect():
 
 @sio.on('terminate')
 def terminate(sid):
+    #Closing connection
     print(sid)
     sio.close_room(sid)
 
