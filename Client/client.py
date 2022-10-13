@@ -1,3 +1,4 @@
+import math
 import collections
 try:
     from collections import abc
@@ -69,6 +70,75 @@ def resp(data):
     if user != None and data["name"] == user["name"]:
         user = data
 
+def distance(x1,y1,x2,y2):
+    return math.sqrt((y1-y2)**2 + (x1-x2)**2)
+
+def predict_player_pos(pos1,pos2,val):
+    if(val==0):# its a player
+        points = []
+        x = pos1[0]
+        y = pos1[1]
+        points.append([x-7,y+7])
+        points.append([x,y+7])
+        points.append([x+7,y+7])
+        points.append([x+7,y])
+        points.append([x+7,y-7])
+        points.append([x,y-7])
+        points.append([x-7,y-7])
+        points.append([x-7,y])
+
+        # print("POINTS = ",points)
+
+        dist_p2 = []
+
+        for i in range(8):
+            dist_p2.append(distance(points[i][0],points[i][1],pos2[0],pos2[1]))
+
+        dist_win = []
+        for i in range(8):
+            dist_win.append(distance(points[i][0],points[i][1],802,295))
+
+        dist = []
+        for i in range(8):
+            dist.append(dist_p2[i]/dist_win[i])
+
+        max1 = dist[0]
+        maxpos = 0
+
+        for i in range(1,8):
+            if(dist[i]>max1):
+                max1 = dist[i]
+                maxpos = i
+
+        return([points[maxpos][0],points[maxpos][1]])
+
+    else:# its a danner
+        points = []
+        x = pos1[0]
+        y = pos1[1]
+        points.append([x-7,y+7])
+        points.append([x,y+7])
+        points.append([x+7,y+7])
+        points.append([x+7,y])
+        points.append([x+7,y-7])
+        points.append([x,y-7])
+        points.append([x-7,y-7])
+        points.append([x-7,y])
+
+        dist = []
+
+        for i in range(8):
+            dist.append(distance(points[i][0],points[i][1],pos2[0],pos2[1]))
+
+        min1 = dist[0]
+        minpos = 0
+
+        for i in range(1,8):
+            if(dist[i]<min1):
+                min1 = dist[i]
+                minpos = i
+
+        return([points[minpos][0],points[minpos][1]])
 
 def main():
     """ Main Program """
@@ -85,7 +155,7 @@ def main():
     screen = pygame.display.set_mode([800, 600])
 
     # Set the title of the window
-    pygame.display.set_caption('Maze Runner')
+    pygame.display.set_caption('Pakdam Pakdai')
 
     # Create the player paddle object
     global player
@@ -176,6 +246,25 @@ def main():
                     danner.set_position(gdata["Danner"])
                 frameNo = gdata["frameNo"]
 
+            if frameNo-gdata["frameNo"] < frameDiff:
+                if(user["choice"]==0):
+                    # prediction logic for danner
+                    danner.set_position(predict_player_pos([danner.rect.x,danner.rect.y],[player.rect.x,player.rect.y],1))
+                else:
+                    #Prediction logic for player 
+                    player.set_position(predict_player_pos([player.rect.x,player.rect.y],[danner.rect.x,danner.rect.y],0))
+
+            if frameNo-gdata["frameNo"] <= frameDiff:
+                if user["choice"] == 0:
+                    #Rollback:
+                    if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
+                        player.set_position(gdata["Player"])
+                else:
+                    #Rollback
+                    if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
+                        danner.set_position(gdata["Danner"])
+                frameNo = gdata["frameNo"]
+
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)
 
@@ -186,6 +275,6 @@ def main():
 
 
 if __name__ == "__main__":
-    sio.connect('http://0.0.0.0:5004')
-    # sio.connect("https://socket-game-project.herokuapp.com/")
+    # sio.connect('http://0.0.0.0:5004')
+    sio.connect("https://socket-game-project.herokuapp.com/")
     main()
