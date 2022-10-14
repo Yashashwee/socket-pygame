@@ -65,7 +65,7 @@ def choice(data):
 @sio.on('message')
 def print_message(message):
     """
-    :parameter: message from client
+    :parameter: message
     """
     print(message)
 
