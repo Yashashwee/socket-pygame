@@ -44,6 +44,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">game</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tests:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests.html">game</a></li>
+</ul>
 
         </div>
       </div>
@@ -72,6 +76,7 @@
   <h1>Source code for players</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pygame</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">rgb</span> <span class="kn">import</span> <span class="n">PURPLE</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">,</span> <span class="n">BLUE</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">GREEN</span>
 
 <span class="c1"># Background Image</span>
@@ -110,7 +115,7 @@
 
 <div class="viewcode-block" id="Player.changespeed"><a class="viewcode-back" href="../players.html#players.Player.changespeed">[docs]</a>    <span class="k">def</span> <span class="nf">changespeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; | Change the speed of the player. Called with a keypress. </span>
-<span class="sd">        </span>
+
 <span class="sd">        | parameter1: x</span>
 <span class="sd">        | parameter2: y</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -128,7 +133,7 @@
 <div class="viewcode-block" id="Player.move_player"><a class="viewcode-back" href="../players.html#players.Player.move_player">[docs]</a>    <span class="k">def</span> <span class="nf">move_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; | Find a new position for the player </span>
 <span class="sd">        | parameter1: walls</span>
-<span class="sd">        | parameter2: player</span>
+<span class="sd">        | parameter2: player2 which is danner</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Move left/right</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_x</span>
@@ -136,8 +141,8 @@
         <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">801</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">show_win_screen</span><span class="p">()</span>
+        <span class="c1"># if(self.rect.x &gt; 801):</span>
+        <span class="c1">#     self.show_win_screen()</span>
 
         <span class="c1"># Did this update cause us to hit a wall?</span>
         <span class="n">block_hit_list</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">spritecollide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
@@ -161,13 +166,13 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span></div>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">collide_rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span></div>
+        <span class="c1"># if (pygame.sprite.collide_rect(self, player) == True):</span>
+        <span class="c1">#     self.show_go_screen()</span>
 
 <div class="viewcode-block" id="Player.move_danner"><a class="viewcode-back" href="../players.html#players.Player.move_danner">[docs]</a>    <span class="k">def</span> <span class="nf">move_danner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; | Find a new position for the player </span>
+        <span class="sd">&quot;&quot;&quot; | Find a new position for the danner </span>
 <span class="sd">        | parameter1: walls</span>
 <span class="sd">        | parameter2: player</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -202,10 +207,10 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span></div>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">collide_rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span></div>
+        <span class="c1"># if (pygame.sprite.collide_rect(self, player) == True):</span>
+        <span class="c1">#     self.show_go_screen()</span>
 
 <div class="viewcode-block" id="Player.show_go_screen"><a class="viewcode-back" href="../players.html#players.Player.show_go_screen">[docs]</a>    <span class="k">def</span> <span class="nf">show_go_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Display the go screen &quot;&quot;&quot;</span>
@@ -229,7 +234,8 @@
 
             <span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
             <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></div>
+        <span class="c1"># sys.exit()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Player.show_win_screen"><a class="viewcode-back" href="../players.html#players.Player.show_win_screen">[docs]</a>    <span class="k">def</span> <span class="nf">show_win_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Display the win screen &quot;&quot;&quot;</span>
@@ -253,7 +259,8 @@
 
             <span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
             <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></div></div>
+        <span class="c1"># sys.exit()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

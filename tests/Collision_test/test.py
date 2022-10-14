@@ -5,7 +5,7 @@ import unittest
 from collision import *
 
 # unit test
-class test_parser(unittest.TestCase):
+class test_collision(unittest.TestCase):
 
 	# checking if the player collision is done correctly
 	def test_player2player_collision(self):
@@ -25,7 +25,7 @@ class test_parser(unittest.TestCase):
 
 # added this condition so that this only runs if this file is run directly and not imported 
 if __name__ == "__main__":
-	var=unittest.TestLoader().loadTestsFromTestCase(test_parser)
+	var=unittest.TestLoader().loadTestsFromTestCase(test_collision)
 	unittest.TextTestRunner(verbosity=2).run(var)
 
 	

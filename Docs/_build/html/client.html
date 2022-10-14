@@ -54,8 +54,10 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">client module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#client.beginGame"><code class="docutils literal notranslate"><span class="pre">beginGame()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#client.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#client.distance"><code class="docutils literal notranslate"><span class="pre">distance()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#client.error"><code class="docutils literal notranslate"><span class="pre">error()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#client.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#client.predict_player_pos"><code class="docutils literal notranslate"><span class="pre">predict_player_pos()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#client.resp"><code class="docutils literal notranslate"><span class="pre">resp()</span></code></a></li>
 </ul>
 </li>
@@ -63,6 +65,10 @@
 <li class="toctree-l2"><a class="reference internal" href="flaskserver.html">flaskserver module</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tests:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">game</a></li>
 </ul>
 
         </div>
@@ -108,6 +114,11 @@
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="client.distance">
+<span class="sig-prename descclassname"><span class="pre">client.</span></span><span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/client.html#distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#client.distance" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="client.error">
 <span class="sig-prename descclassname"><span class="pre">client.</span></span><span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/client.html#error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#client.error" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
@@ -121,6 +132,15 @@
 <dt class="sig sig-object py" id="client.main">
 <span class="sig-prename descclassname"><span class="pre">client.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/client.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#client.main" title="Permalink to this definition"></a></dt>
 <dd><p>Main Program</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="client.predict_player_pos">
+<span class="sig-prename descclassname"><span class="pre">client.</span></span><span class="sig-name descname"><span class="pre">predict_player_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/client.html#predict_player_pos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#client.predict_player_pos" title="Permalink to this definition"></a></dt>
+<dd><p>Basically the objective of player is to
+maximize its distance from danner and
+minimize its distance from winning position
+that has been implemented</p>
 </dd></dl>
 
 <dl class="py function">

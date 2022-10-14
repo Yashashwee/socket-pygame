@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>conclusion_test &mdash; MazeGame 1.000 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> MazeGame
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Intro:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">game</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tests:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests.html">game</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MazeGame</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>conclusion_test</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for conclusion_test</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">game_conclusion</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># unit test</span>
+<div class="viewcode-block" id="test_parser"><a class="viewcode-back" href="../conclusion_test.html#conclusion_test.test_parser">[docs]</a><span class="k">class</span> <span class="nc">test_parser</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+	<span class="c1"># checking if the player collision is done correctly</span>
+<div class="viewcode-block" id="test_parser.test_p1_win"><a class="viewcode-back" href="../conclusion_test.html#conclusion_test.test_parser.test_p1_win">[docs]</a>	<span class="k">def</span> <span class="nf">test_p1_win</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">250</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">110</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">265</span><span class="p">],[</span><span class="mi">90</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">278</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">90</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">332</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">521</span><span class="p">,</span><span class="mi">432</span><span class="p">],[</span><span class="mi">80</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">624</span><span class="p">,</span><span class="mi">523</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">80</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">500</span><span class="p">,</span><span class="mi">278</span><span class="p">],[</span><span class="mi">120</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">800</span><span class="p">,</span><span class="mi">184</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">120</span><span class="p">]),[</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="test_parser.test_p2_win"><a class="viewcode-back" href="../conclusion_test.html#conclusion_test.test_parser.test_p2_win">[docs]</a>	<span class="k">def</span> <span class="nf">test_p2_win</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">201</span><span class="p">,</span><span class="mi">184</span><span class="p">],[</span><span class="mi">195</span><span class="p">,</span><span class="mi">183</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">320</span><span class="p">],[</span><span class="mi">90</span><span class="p">,</span><span class="mi">315</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">332</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">336</span><span class="p">,</span><span class="mi">95</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">90</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">521</span><span class="p">,</span><span class="mi">432</span><span class="p">],[</span><span class="mi">80</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">624</span><span class="p">,</span><span class="mi">523</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">80</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">278</span><span class="p">],[</span><span class="mi">120</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">800</span><span class="p">,</span><span class="mi">184</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">120</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="test_parser.test_none_win"><a class="viewcode-back" href="../conclusion_test.html#conclusion_test.test_parser.test_none_win">[docs]</a>	<span class="k">def</span> <span class="nf">test_none_win</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">232</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">110</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">542</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">90</span><span class="p">,</span><span class="mi">110</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">224</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">90</span><span class="p">,</span><span class="mi">90</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">671</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">90</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],[</span><span class="mi">110</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">210</span><span class="p">,</span><span class="mi">220</span><span class="p">],[</span><span class="mi">205</span><span class="p">,</span><span class="mi">219</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">278</span><span class="p">],[</span><span class="mi">120</span><span class="p">,</span><span class="mi">100</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">conclusion</span><span class="p">([</span><span class="mi">802</span><span class="p">,</span><span class="mi">324</span><span class="p">],[</span><span class="mi">100</span><span class="p">,</span><span class="mi">120</span><span class="p">]),[</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span></div></div>
+
+<span class="c1"># added this condition so that this only runs if this file is run directly and not imported </span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">var</span><span class="o">=</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromTestCase</span><span class="p">(</span><span class="n">test_parser</span><span class="p">)</span>
+	<span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+	
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, VYD.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -44,6 +44,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">game</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tests:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests.html">game</a></li>
+</ul>
 
         </div>
       </div>
@@ -83,6 +87,24 @@
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 <span class="n">sio</span> <span class="o">=</span> <span class="n">SocketIO</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
+
+<div class="viewcode-block" id="checkOverlap"><a class="viewcode-back" href="../app.html#app.checkOverlap">[docs]</a><span class="k">def</span> <span class="nf">checkOverlap</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">danner</span><span class="p">):</span>
+    <span class="n">l1</span> <span class="o">=</span> <span class="n">player</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="p">[</span><span class="n">l1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> <span class="n">l1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">15</span><span class="p">]</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">danner</span>
+    
+    <span class="n">r2</span> <span class="o">=</span> <span class="p">[</span><span class="n">l2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> <span class="n">l2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">15</span><span class="p">]</span>
+    <span class="c1"># If one rectangle is on left side of other</span>
+    <span class="k">if</span> <span class="n">l1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">l2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r1</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># If one rectangle is above other</span>
+    <span class="k">if</span> <span class="n">r1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">r2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l1</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+<span class="c1">#initializing initial state</span>
 <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">gdata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
@@ -144,14 +166,27 @@
         <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">]</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">checkOverlap</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">],</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">])):</span>
+        <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">801</span><span class="p">):</span>
+        <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="n">gdata</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="disconnect"><a class="viewcode-back" href="../app.html#app.disconnect">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">disconnect</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">players</span>
-    <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;Other player diconneted&quot;</span><span class="p">)</span>
-    <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span></div>
+    <span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">gdata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>    
+    <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;Other player diconneted&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="terminate"><a class="viewcode-back" href="../app.html#app.terminate">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;terminate&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">terminate</span><span class="p">(</span><span class="n">sid</span><span class="p">):</span>
+    <span class="c1">#Closing connection</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+    <span class="n">sio</span><span class="o">.</span><span class="n">close_room</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
