@@ -16,7 +16,7 @@ def checkOverlap(player, danner):
     l1 = player
     r1 = [l1[0]+15, l1[1]-15]
     l2 = danner
-    
+
     r2 = [l2[0]+15, l2[1]-15]
     # If one rectangle is on left side of other
     if l1[0] > r2[0] or l2[0] > r1[0]:
@@ -28,7 +28,8 @@ def checkOverlap(player, danner):
 
     return True
 
-#initializing initial state
+
+# initializing initial state
 players = []
 gdata = {"Player": [50, 50], "Danner": [
     100, 100], "frameNo": 0, "winner": None}
@@ -39,8 +40,18 @@ def index():
     return "Hello"
 
 
+@sio.on('resetPlayers')
+def reset():
+    global players
+    global gdata
+    players = []
+    gdata = {"Player": [50, 50], "Danner": [
+        100, 100], "frameNo": 0, "winner": None}
+    return "RESET!!!"
+
+
 @sio.on('user')
-def choice(data):
+def choice(data, callback=None):
     """
     :parameter: data
     """
@@ -49,16 +60,21 @@ def choice(data):
     # print(data)
     # print(players)
     if len(players) == 0:
+        data["choice"] = data["choice"] % 2
         players.append(data)
-        print(data)
+        # print(data)
         sio.emit("userresp", data)
     else:
-        if players[0]["choice"] == data["choice"]:
-            data["choice"] = (players[0]["choice"]+1) % 2
-            sio.emit("userresp", data)
-        else:
-            sio.emit("userresp", data)
+        # if players[0]["choice"] == data["choice"]:
+        data["choice"] = (players[0]["choice"]+1) % 2
+        players.append(data)
+        sio.emit("userresp", data)
+        # else:
+        #     data["choice"] = data["choice"] % 2
+        #     players.append(data)
+        #     sio.emit("userresp", data)
     sio.emit("begin", gdata)
+    return gdata, data
     # print(data)
 
 
@@ -68,16 +84,18 @@ def print_message(message):
     :parameter: message
     """
     print(message)
+    return message
 
 
 @sio.on('input')
-def print_number(sid, num):
+def getSid(sid, num=None):
     """
     Client info
     :parameter 1: sid
     :parameter 2: num
     """
     sio.emit('begin', None)
+    return sid
 
 
 @sio.on('nextkey')
@@ -96,23 +114,24 @@ def nextKey(data):
     if(gdata["Player"][0] > 801):
         gdata["winner"] = 0
     sio.emit('begin', gdata)
+    return gdata
 
 
 @sio.event
 def disconnect():
-    #logic for disconnect
+    # logic for disconnect
     global players
     players = []
     gdata = {"Player": [50, 50], "Danner": [
-        100, 100], "frameNo": 0, "winner": None}    
+        100, 100], "frameNo": 0, "winner": None}
     sio.emit("error", "Other player diconneted")
 
 
-@sio.on('terminate')
-def terminate(sid):
-    #Closing connection
-    print(sid)
-    sio.close_room(sid)
+# @sio.on('terminate')
+# def terminate(sid):
+#     # Closing connection
+#     print(sid)
+#     sio.close_room(sid)
 
 
 if __name__ == '__main__':

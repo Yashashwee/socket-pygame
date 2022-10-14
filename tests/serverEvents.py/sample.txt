@@ -1,0 +1,14 @@
+Hello
+NewMessage
+{'Player': [50, 50], 'Danner': [100, 100], 'frameNo': 0, 'winner': None}
+{'name': 'Dummy', 'choice': 0}
+{'Player': [50, 50], 'Danner': [100, 100], 'frameNo': 0, 'winner': None}
+{'name': 'Dummy2', 'choice': 1}
+{'Player': [130, 130], 'Danner': [100, 100], 'frameNo': 404, 'winner': None}
+{'Player': [130, 130], 'Danner': [140, 140], 'frameNo': 404, 'winner': 1}
+RESET!!!
+{'Player': [50, 50], 'Danner': [100, 100], 'frameNo': 0, 'winner': None}
+{'name': 'Dummy', 'choice': 0}
+{'Player': [50, 50], 'Danner': [100, 100], 'frameNo': 0, 'winner': None}
+{'name': 'Dummy2', 'choice': 1}
+{'Player': [803, 130], 'Danner': [100, 100], 'frameNo': 404, 'winner': 0}
