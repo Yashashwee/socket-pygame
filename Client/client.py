@@ -244,7 +244,23 @@ def main():
                     roleChoice[gdata["winner"]].show_win_screen()
                 else:
                     roleChoice[user["choice"]].show_go_screen()
+            
+            # if frameNo-gdata["frameNo"] > frameDiff:
+            #     if user["choice"] == 0:
+            #         player.set_position(gdata["Player"])
+            #     else:
+            #         danner.set_position(gdata["Danner"])
+            #     frameNo = gdata["frameNo"]
+
             if frameNo-gdata["frameNo"] > frameDiff:
+                if(user["choice"]==0):
+                    # prediction logic for danner
+                    danner.set_position(predict_player_pos([danner.rect.x,danner.rect.y],[player.rect.x,player.rect.y],1))
+                else:
+                    #Prediction logic for player 
+                    player.set_position(predict_player_pos([player.rect.x,player.rect.y],[danner.rect.x,danner.rect.y],0))
+
+            if frameNo-gdata["frameNo"] <= frameDiff:
                 if user["choice"] == 0:
                     #Rollback:
                     if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
@@ -254,25 +270,6 @@ def main():
                     if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
                         danner.set_position(gdata["Danner"])
                 frameNo = gdata["frameNo"]
-
-            if frameNo-gdata["frameNo"] < frameDiff:
-                if(user["choice"]==0):
-                    # prediction logic for danner
-                    danner.set_position(predict_player_pos([danner.rect.x,danner.rect.y],[player.rect.x,player.rect.y],1))
-                else:
-                    #Prediction logic for player 
-                    player.set_position(predict_player_pos([player.rect.x,player.rect.y],[danner.rect.x,danner.rect.y],0))
-
-            # if frameNo-gdata["frameNo"] <= frameDiff:
-            #     if user["choice"] == 0:
-            #         #Rollback:
-            #         if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
-            #             player.set_position(gdata["Player"])
-            #     else:
-            #         #Rollback
-            #         if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
-            #             danner.set_position(gdata["Danner"])
-            #     frameNo = gdata["frameNo"]
 
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)

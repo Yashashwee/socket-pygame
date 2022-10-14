@@ -99,6 +99,7 @@ def nextKey(data):
 
 @sio.event
 def disconnect():
+    #logic for disconnect
     global players
     players = []
     gdata = {"Player": [50, 50], "Danner": [
