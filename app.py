@@ -82,7 +82,7 @@ def print_number(sid, num):
 @sio.on('nextkey')
 def nextKey(data):
     """
-    :parameter: data
+    :parameter: data:player name,position,etc.
     """
     global gdata
     gdata["frameNo"] = data["frameNo"]
