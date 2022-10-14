@@ -73,6 +73,7 @@ def print_message(message):
 @sio.on('input')
 def print_number(sid, num):
     """
+    Client info
     :parameter 1: sid
     :parameter 2: num
     """
