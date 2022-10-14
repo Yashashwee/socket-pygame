@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; MazeGame 1.000 documentation</title>
+  <title>game_conclusion &mdash; MazeGame 1.000 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -63,7 +63,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Overview: module code</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>game_conclusion</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,19 +73,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="app.html">app</a></li>
-<li><a href="client.html">client</a></li>
-<li><a href="clientOld.html">clientOld</a></li>
-<li><a href="collision.html">collision</a></li>
-<li><a href="conclusion_test.html">conclusion_test</a></li>
-<li><a href="connection.html">connection</a></li>
-<li><a href="flaskserver.html">flaskserver</a></li>
-<li><a href="game_conclusion.html">game_conclusion</a></li>
-<li><a href="players.html">players</a></li>
-<li><a href="room.html">room</a></li>
-<li><a href="server.html">server</a></li>
-</ul>
+  <h1>Source code for game_conclusion</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
+    <span class="n">fileSystemGoBack</span><span class="o">=</span><span class="s1">&#39;.&#39;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">fileSystemGoBack</span><span class="o">=</span><span class="s1">&#39;..&#39;</span>
+
+<span class="c1"># print(os.path.join(fileSystemGoBack,&#39;Collision_test&#39;))</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fileSystemGoBack</span><span class="p">,</span><span class="s1">&#39;Collision_test&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">collision</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="conclusion"><a class="viewcode-back" href="../game_conclusion.html#game_conclusion.conclusion">[docs]</a><span class="k">def</span> <span class="nf">conclusion</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="n">danner</span><span class="p">):</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">checkOverlap</span><span class="p">(</span><span class="n">player</span><span class="p">,</span><span class="n">danner</span><span class="p">)):</span>
+		<span class="k">return</span> <span class="p">([</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">])</span>
+
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">801</span><span class="p">):</span>
+			<span class="k">return</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">])</span></div>
+</pre></div>
 
            </div>
           </div>

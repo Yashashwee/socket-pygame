@@ -19,6 +19,12 @@ Welcome to MazeGame's documentation!
 
    modules
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Tests:
+
+   tests
+
 Indices and tables
 ==================
 
