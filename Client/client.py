@@ -224,7 +224,7 @@ def main():
                         danner.changespeed(0, -5)
 
         # --- Game Logic ---
-
+        # print(current_room.wall_list)
         player.move_player(current_room.wall_list, danner)
 
         danner.move_danner(current_room.wall_list, player)

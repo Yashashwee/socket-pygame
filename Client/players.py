@@ -133,6 +133,8 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.rect.top = block.rect.bottom
 
+        # print("x = ",self.rect.x,"  y = ",self.rect.y)
+
         # if (pygame.sprite.collide_rect(self, player) == True):
         #     self.show_go_screen()
 
