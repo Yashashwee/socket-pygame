@@ -40,6 +40,13 @@ def index():
     return "Hello"
 
 
+@sio.on('testoverlap')
+def testOverlap(Coords):
+    player = Coords[0]
+    danner = Coords[1]
+    return checkOverlap(player, danner)
+
+
 @sio.on('resetPlayers')
 def reset():
     global players
