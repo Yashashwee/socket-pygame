@@ -173,6 +173,7 @@ class Player(pygame.sprite.Sprite):
                 if event.type == pygame.QUIT:
                     self.running = False
                     done = True
+                    os._exit(1)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         done = True
@@ -198,6 +199,7 @@ class Player(pygame.sprite.Sprite):
                 if event.type == pygame.QUIT:
                     self.running = False
                     done = True
+                    os._exit(1)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         done = True

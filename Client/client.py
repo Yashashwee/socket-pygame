@@ -1,6 +1,7 @@
 import math
 import time
 import collections
+import random
 try:
     from collections import abc
     collections.MutableMapping = abc.MutableMapping
@@ -18,7 +19,7 @@ import pygame
 
 sio = socketio.Client()
 setDelay = 0
-frameDiff = 0
+frameDiff = 5
 player = Player(50, 50, WHITE)
 danner = Player(100, 100, RED)
 
@@ -193,6 +194,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+                os._exit(1)
             if user["choice"] == 0:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
@@ -239,7 +241,8 @@ def main():
         player.move_player(current_room.wall_list, danner)
 
         danner.move_danner(current_room.wall_list, player)
-        sio.sleep(setDelay/1000)
+        if random.random() <= 0.25:
+            sio.sleep(setDelay/1000)
         if user["choice"] == 0:
 
             danner.set_position(gdata["Danner"], current_room.wall_list)
@@ -258,14 +261,14 @@ def main():
                 else:
                     roleChoice[user["choice"]].show_go_screen()
 
-            # if frameNo-gdata["frameNo"] > frameDiff:
+            # if frameNo-gdata["frameNo"][user["choice"]] > frameDiff:
             #     if user["choice"] == 0:
             #         player.set_position(gdata["Player"])
             #     else:
             #         danner.set_position(gdata["Danner"])
-            #     frameNo = gdata["frameNo"]
-
-            if frameNo-gdata["frameNo"] > frameDiff:
+            #     frameNo = gdata["frameNo"][user["choice"]]
+            print(frameNo-gdata["frameNo"][user["choice"]])
+            if frameNo-gdata["frameNo"][user["choice"]] > frameDiff and random.random() <= 0.5:
                 if(user["choice"] == 0):
                     # prediction logic for danner
                     danner.set_position(predict_player_pos(
@@ -275,7 +278,7 @@ def main():
                     player.set_position(predict_player_pos(
                         [player.rect.x, player.rect.y], [danner.rect.x, danner.rect.y], 0), current_room.wall_list)
 
-            if frameNo-gdata["frameNo"] <= frameDiff:
+            if frameNo-gdata["frameNo"][user["choice"]] <= frameDiff:
                 if user["choice"] == 0:
                     # Rollback:
                     if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1]):
@@ -286,7 +289,7 @@ def main():
                     if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1]):
                         danner.set_position(
                             gdata["Danner"], current_room.wall_list)
-                frameNo = gdata["frameNo"]
+                frameNo = gdata["frameNo"][user["choice"]]
 
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)

@@ -33,7 +33,8 @@ def checkOverlap(player, danner):
 # initializing initial state
 players = []
 gdata = {"Player": [50, 50], "Danner": [
-    100, 100], "frameNo": 0, "winner": None}
+    100, 100], "frameNo": [0, 0], "winner": None}
+frames = [0, 0]
 
 sio.emit('begin', gdata)
 
@@ -89,15 +90,20 @@ def nextKey(data):
     :parameter: data:player name,position,etc.
     """
     global gdata
-    gdata["frameNo"] = data["frameNo"]
+    global frames
+    # gdata["frameNo"] = data["frameNo"]
     if data["Player"] == None:
         gdata["Danner"] = data["Danner"]
+        frames[1] = data["frameNo"]
     else:
         gdata["Player"] = data["Player"]
+        frames[0] = data["frameNo"]
     if(checkOverlap(gdata["Player"], gdata["Danner"])):
         gdata["winner"] = 1
     if(gdata["Player"][0] > 801):
         gdata["winner"] = 0
+    gdata["frameNo"] = frames
+    # time.sleep(data["delay"]/1000)
     sio.emit('begin', gdata)
 
 
