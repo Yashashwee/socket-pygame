@@ -13,6 +13,7 @@ sys.path.insert(0,os.path.abspath('../Server'))
 sys.path.insert(0,os.path.abspath('../tests'))
 sys.path.insert(0,os.path.abspath('../tests/Game_conclusion'))
 sys.path.insert(0,os.path.abspath('../tests/Collision_test'))
+sys.path.insert(0,os.path.abspath('../tests/serverEvents.py'))
 #for x in os.walk('../../src'):
 # sys.path.insert(0, x[0])
 

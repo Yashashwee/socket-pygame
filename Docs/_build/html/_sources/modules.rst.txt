@@ -10,5 +10,4 @@ game
    room
    server
    client
-   clientOld
    flaskserver

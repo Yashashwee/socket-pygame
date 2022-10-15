@@ -75,6 +75,7 @@
              
   <h1>Source code for client</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">abc</span>
@@ -92,19 +93,22 @@
 <span class="c1">#import asyncio</span>
 
 <span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
-
-<span class="n">frameDiff</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">setDelay</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">frameDiff</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">player</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">)</span>
 <span class="n">danner</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">RED</span><span class="p">)</span>
 
 <span class="n">roleChoice</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">player</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">danner</span><span class="p">}</span>
 
-<span class="n">temp</span><span class="o">=</span><span class="kc">None</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="kc">None</span>
+
+
 <div class="viewcode-block" id="connect"><a class="viewcode-back" href="../client.html#client.connect">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">temp</span>
-    <span class="n">temp</span><span class="o">=</span><span class="s2">&quot;I&#39;m connected!&quot;</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m connected!&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span></div>
+
 
     <span class="c1"># p = int(input(&quot;Testing emit enter number greater than 0 &quot;))</span>
     <span class="c1"># if p &gt; 0:</span>
@@ -119,6 +123,8 @@
 <span class="sd">    :parameter: data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">gdata</span>
+    <span class="k">if</span> <span class="n">setDelay</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">setDelay</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
     <span class="n">gdata</span> <span class="o">=</span> <span class="n">data</span></div>
 
 
@@ -131,8 +137,9 @@
     <span class="k">global</span> <span class="n">player</span>
     <span class="k">global</span> <span class="n">danner</span>
     <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;terminate&quot;</span><span class="p">,</span> <span class="n">sio</span><span class="o">.</span><span class="n">sid</span><span class="p">)</span>
-    <span class="c1"># player.show_go_screen()</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span>
     <span class="c1"># pygame.quit()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
 
 
@@ -146,38 +153,41 @@
     <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="distance"><a class="viewcode-back" href="../client.html#client.distance">[docs]</a><span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">):</span>
+
+<div class="viewcode-block" id="distance"><a class="viewcode-back" href="../client.html#client.distance">[docs]</a><span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">y1</span><span class="o">-</span><span class="n">y2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x1</span><span class="o">-</span><span class="n">x2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="predict_player_pos"><a class="viewcode-back" href="../client.html#client.predict_player_pos">[docs]</a><span class="k">def</span> <span class="nf">predict_player_pos</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span><span class="n">pos2</span><span class="p">,</span><span class="n">val</span><span class="p">):</span>
+
+<div class="viewcode-block" id="predict_player_pos"><a class="viewcode-back" href="../client.html#client.predict_player_pos">[docs]</a><span class="k">def</span> <span class="nf">predict_player_pos</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Basically the objective of player is to</span>
 <span class="sd">        maximize its distance from danner and </span>
 <span class="sd">        minimize its distance from winning position</span>
 <span class="sd">        that has been implemented</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">val</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span><span class="c1"># its a player</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># its a player</span>
         <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">pos1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">pos1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
 
         <span class="c1"># print(&quot;POINTS = &quot;,points)</span>
 
         <span class="n">dist_p2</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-            <span class="n">dist_p2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">pos2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">pos2</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">dist_p2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">distance</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">pos2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos2</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="n">dist_win</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-            <span class="n">dist_win</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="mi">802</span><span class="p">,</span><span class="mi">295</span><span class="p">))</span>
+            <span class="n">dist_win</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">802</span><span class="p">,</span> <span class="mi">295</span><span class="p">))</span>
 
         <span class="n">dist</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
@@ -186,40 +196,41 @@
         <span class="n">max1</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">maxpos</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">):</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">max1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max1</span><span class="p">):</span>
                 <span class="n">max1</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">maxpos</span> <span class="o">=</span> <span class="n">i</span>
 
-        <span class="k">return</span><span class="p">([</span><span class="n">points</span><span class="p">[</span><span class="n">maxpos</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="n">maxpos</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">return</span><span class="p">([</span><span class="n">points</span><span class="p">[</span><span class="n">maxpos</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">maxpos</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
 
-    <span class="k">else</span><span class="p">:</span><span class="c1"># its a danner</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># its a danner</span>
         <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">pos1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">pos1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
-        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
 
         <span class="n">dist</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-            <span class="n">dist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">pos2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">pos2</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">pos2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos2</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="n">min1</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">minpos</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">):</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="n">min1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min1</span><span class="p">):</span>
                 <span class="n">min1</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">minpos</span> <span class="o">=</span> <span class="n">i</span>
 
-        <span class="k">return</span><span class="p">([</span><span class="n">points</span><span class="p">[</span><span class="n">minpos</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="n">minpos</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span></div>
+        <span class="k">return</span><span class="p">([</span><span class="n">points</span><span class="p">[</span><span class="n">minpos</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">minpos</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span></div>
+
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../client.html#client.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Main Program &quot;&quot;&quot;</span>
@@ -300,18 +311,20 @@
                         <span class="n">danner</span><span class="o">.</span><span class="n">changespeed</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>
 
         <span class="c1"># --- Game Logic ---</span>
-
+        <span class="c1"># print(current_room.wall_list)</span>
         <span class="n">player</span><span class="o">.</span><span class="n">move_player</span><span class="p">(</span><span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">,</span> <span class="n">danner</span><span class="p">)</span>
 
         <span class="n">danner</span><span class="o">.</span><span class="n">move_danner</span><span class="p">(</span><span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span>
+        <span class="n">sio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">setDelay</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">])</span>
+
+            <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
             <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;nextkey&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="p">[</span>
-                <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+                <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">setDelay</span><span class="p">})</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">])</span>
+            <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
             <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;nextkey&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="p">[</span>
-                     <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+                     <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">setDelay</span><span class="p">})</span>
         <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BLACK</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">gdata</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -320,35 +333,36 @@
                     <span class="n">roleChoice</span><span class="p">[</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">show_win_screen</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">roleChoice</span><span class="p">[</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">frameDiff</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="c1">#Rollback:</span>
-                    <span class="k">if</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">):</span>
-                        <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">])</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1">#Rollback</span>
-                    <span class="k">if</span><span class="p">(</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">):</span>
-                        <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">])</span>
-                <span class="n">frameNo</span> <span class="o">=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">frameDiff</span><span class="p">:</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
-                    <span class="c1"># prediction logic for danner</span>
-                    <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">predict_player_pos</span><span class="p">([</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],[</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span><span class="mi">1</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1">#Prediction logic for player </span>
-                    <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">predict_player_pos</span><span class="p">([</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],[</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span><span class="mi">0</span><span class="p">))</span>
-
-            <span class="c1"># if frameNo-gdata[&quot;frameNo&quot;] &lt;= frameDiff:</span>
+            <span class="c1"># if frameNo-gdata[&quot;frameNo&quot;] &gt; frameDiff:</span>
             <span class="c1">#     if user[&quot;choice&quot;] == 0:</span>
-            <span class="c1">#         #Rollback:</span>
-            <span class="c1">#         if(player.rect.x != gdata[&quot;Player&quot;][0] and player.rect.y != gdata[&quot;Player&quot;][1] ):</span>
-            <span class="c1">#             player.set_position(gdata[&quot;Player&quot;])</span>
+            <span class="c1">#         player.set_position(gdata[&quot;Player&quot;])</span>
             <span class="c1">#     else:</span>
-            <span class="c1">#         #Rollback</span>
-            <span class="c1">#         if(danner.rect.x != gdata[&quot;Danner&quot;][0] and danner.rect.y != gdata[&quot;Danner&quot;][1] ):</span>
-            <span class="c1">#             danner.set_position(gdata[&quot;Danner&quot;])</span>
+            <span class="c1">#         danner.set_position(gdata[&quot;Danner&quot;])</span>
             <span class="c1">#     frameNo = gdata[&quot;frameNo&quot;]</span>
+
+            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">frameDiff</span><span class="p">:</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="c1"># prediction logic for danner</span>
+                    <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">predict_player_pos</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Prediction logic for player</span>
+                    <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">predict_player_pos</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">frameDiff</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># Rollback:</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span>
+                            <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Rollback</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span>
+                            <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
+                <span class="n">frameNo</span> <span class="o">=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span>
 
         <span class="n">movingsprites</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
         <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
@@ -360,8 +374,10 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># sio.connect(&#39;http://0.0.0.0:5004&#39;)</span>
-    <span class="n">sio</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;https://socket-game-project.herokuapp.com/&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">setDelay</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">sio</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;http://0.0.0.0:5004&#39;</span><span class="p">)</span>
+    <span class="c1"># sio.connect(&quot;https://socket-game-project.herokuapp.com/&quot;)</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 

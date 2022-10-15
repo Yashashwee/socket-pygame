@@ -9,3 +9,4 @@ game
    conclusion_test
    collision
    test
+   allEvents

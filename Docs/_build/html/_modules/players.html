@@ -122,13 +122,32 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">change_x</span> <span class="o">+=</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">change_y</span> <span class="o">+=</span> <span class="n">y</span></div>
 
-<div class="viewcode-block" id="Player.set_position"><a class="viewcode-back" href="../players.html#players.Player.set_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Coord</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Player.set_position"><a class="viewcode-back" href="../players.html#players.Player.set_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Coord</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">walls</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; | Sets the position of the player.</span>
 <span class="sd">        | parameter: Coord set to None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">Coord</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">Coord</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+            <span class="n">block_hit_list</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">spritecollide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">block_hit_list</span><span class="p">:</span>
+                <span class="c1"># If we are moving right, set our right side to the left side of</span>
+                <span class="c1"># the item we hit</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">left</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Otherwise if we are moving left, do the opposite.</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">right</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">block_hit_list</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">sprite</span><span class="o">.</span><span class="n">spritecollide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">block_hit_list</span><span class="p">:</span>
+
+                <span class="c1"># Reset our position based on the top/bottom of the object.</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span></div>
 
 <div class="viewcode-block" id="Player.move_player"><a class="viewcode-back" href="../players.html#players.Player.move_player">[docs]</a>    <span class="k">def</span> <span class="nf">move_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">walls</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; | Find a new position for the player </span>
@@ -208,6 +227,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span></div>
+
+        <span class="c1"># print(&quot;x = &quot;,self.rect.x,&quot;  y = &quot;,self.rect.y)</span>
 
         <span class="c1"># if (pygame.sprite.collide_rect(self, player) == True):</span>
         <span class="c1">#     self.show_go_screen()</span>
