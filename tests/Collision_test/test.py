@@ -27,10 +27,11 @@ testArr = [
 
 
 class test_collision(unittest.TestCase):
-	"""collision testing class """
+    """collision testing class """
     # checking if the player collision is done correctly
+
     def test_player2player_collision(self):
-    	"""checking if the player collision is done correctly"""
+        """checking if the player collision is done correctly"""
         # self.assertEqual(checkOverlap([100, 100], [100, 110]), True)
         # self.assertEqual(checkOverlap([100, 100], [90, 100]), True)
         # self.assertEqual(checkOverlap([100, 100], [100, 90]), True)

@@ -14,6 +14,11 @@ sio = SocketIO(app)
 
 
 def checkOverlap(player, danner):
+    """
+    | checking the overlap of player and danner
+    | parameter 1: player coordinates
+    | parameter 2: danner coordinates
+    """
     l1 = player
     r1 = [l1[0]+15, l1[1]-15]
     l2 = danner
@@ -46,6 +51,10 @@ def index():
 
 @sio.on('testoverlap')
 def testOverlap(Coords):
+    """
+    | Test the overlap logic
+    | param1: Coords ->  a tuple of player and danner coordinates
+    """
     player = Coords[0]
     danner = Coords[1]
     return checkOverlap(player, danner)
@@ -53,6 +62,10 @@ def testOverlap(Coords):
 
 @sio.on('resetPlayers')
 def reset():
+    """
+
+    | Reset game state
+    """
     global players
     global gdata
     players = []
@@ -64,7 +77,8 @@ def reset():
 @sio.on('user')
 def choice(data):
     """
-    :parameter: data
+    | for the choice selection of user of player and danner
+    | parameter: {"user":<name of user>,"choice":<0 or 1>}
     """
     global players
     global gdata
@@ -91,6 +105,7 @@ def choice(data):
 @sio.on('message')
 def print_message(message):
     """
+    |Pass message to server for debuging
     :parameter: message
     """
     print(message)
@@ -100,7 +115,7 @@ def print_message(message):
 @sio.on('input')
 def print_number(sid, num):
     """
-    Client info
+    Pass client info and unique num
     :parameter 1: sid
     :parameter 2: num
     """
@@ -111,7 +126,8 @@ def print_number(sid, num):
 @sio.on('nextkey')
 def nextKey(data):
     """
-    :parameter: data:player name,position,etc.
+    | next key
+    | parameter: data={"Player/Danner":<coords>,"frameNo":<currentFrame>}.
     """
     global gdata
     global frames
@@ -134,7 +150,9 @@ def nextKey(data):
 
 @sio.event
 def disconnect():
-    # logic for disconnect
+    """
+    logic for disconnect
+    """
     global players
     players = []
     gdata = {"Player": [50, 50], "Danner": [
@@ -144,7 +162,9 @@ def disconnect():
 
 @sio.on('terminate')
 def terminate(sid):
-    # Closing connection
+    """
+    Closing connection
+    """
     print(sid)
     sio.close_room(sid)
 

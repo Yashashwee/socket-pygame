@@ -20,7 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="clientOld module" href="clientOld.html" /> 
+    <link rel="next" title="predict module" href="predict.html" />
+    <link rel="prev" title="asyClient module" href="asyClient.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,14 +52,28 @@
 <li class="toctree-l2"><a class="reference internal" href="room.html">room module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="server.html">server module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="client.html">client module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="clientOld.html">clientOld module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyClient.html">asyClient module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">flaskserver module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#flaskserver.handleMessage"><code class="docutils literal notranslate"><span class="pre">handleMessage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.checkOverlap"><code class="docutils literal notranslate"><span class="pre">checkOverlap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.choice"><code class="docutils literal notranslate"><span class="pre">choice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.disconnect"><code class="docutils literal notranslate"><span class="pre">disconnect()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flaskserver.index"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.nextKey"><code class="docutils literal notranslate"><span class="pre">nextKey()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.print_message"><code class="docutils literal notranslate"><span class="pre">print_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.print_number"><code class="docutils literal notranslate"><span class="pre">print_number()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.reset"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.terminate"><code class="docutils literal notranslate"><span class="pre">terminate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flaskserver.testOverlap"><code class="docutils literal notranslate"><span class="pre">testOverlap()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="predict.html">predict module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="checkOverLap.html">checkOverLap module</a></li>
 </ul>
 </li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">Tests:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">game</a></li>
 </ul>
 
         </div>
@@ -89,13 +104,28 @@
   <section id="module-flaskserver">
 <span id="flaskserver-module"></span><h1>flaskserver module<a class="headerlink" href="#module-flaskserver" title="Permalink to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="flaskserver.handleMessage">
-<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">handleMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#handleMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.handleMessage" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameter</dt>
-<dd class="field-odd"><p>data</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="flaskserver.checkOverlap">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">checkOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">danner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#checkOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.checkOverlap" title="Permalink to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line">checking the overlap of player and danner</div>
+<div class="line">parameter 1: player coordinates</div>
+<div class="line">parameter 2: danner coordinates</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.choice">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#choice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.choice" title="Permalink to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line">for the choice selection of user of player and danner</div>
+<div class="line">parameter: {“user”:&lt;name of user&gt;,”choice”:&lt;0 or 1&gt;}</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.disconnect">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.disconnect" title="Permalink to this definition"></a></dt>
+<dd><p>logic for disconnect</p>
 </dd></dl>
 
 <dl class="py function">
@@ -103,13 +133,61 @@
 <span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.index" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.nextKey">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">nextKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#nextKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.nextKey" title="Permalink to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line">next key</div>
+<div class="line">parameter: data={“Player/Danner”:&lt;coords&gt;,”frameNo”:&lt;currentFrame&gt;}.</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.print_message">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">print_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#print_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.print_message" title="Permalink to this definition"></a></dt>
+<dd><p><a href="#id1"><span class="problematic" id="id2">|</span></a>Pass message to server for debuging
+:parameter: message</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.print_number">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">print_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#print_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.print_number" title="Permalink to this definition"></a></dt>
+<dd><p>Pass client info and unique num
+:parameter 1: sid
+:parameter 2: num</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.reset">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.reset" title="Permalink to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line">Reset game state</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.terminate">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">terminate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#terminate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.terminate" title="Permalink to this definition"></a></dt>
+<dd><p>Closing connection</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flaskserver.testOverlap">
+<span class="sig-prename descclassname"><span class="pre">flaskserver.</span></span><span class="sig-name descname"><span class="pre">testOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Coords</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flaskserver.html#testOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flaskserver.testOverlap" title="Permalink to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line">Test the overlap logic</div>
+<div class="line">param1: Coords -&gt;  a tuple of player and danner coordinates</div>
+</div>
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="clientOld.html" class="btn btn-neutral float-left" title="clientOld module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="asyClient.html" class="btn btn-neutral float-left" title="asyClient module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="predict.html" class="btn btn-neutral float-right" title="predict module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

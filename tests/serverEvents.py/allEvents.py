@@ -13,6 +13,7 @@ sio = socketio.Client()
 
 class test_serverEvents(unittest.TestCase):
     """ server events testing class"""
+
     def test_events(self):
         """testing server events"""
         #sio.emit("input", sio.sid, callback=checkReturn)
