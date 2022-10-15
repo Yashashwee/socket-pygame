@@ -7,6 +7,7 @@ except:
 from flask import Flask, render_template, make_response, redirect
 from flask_socketio import SocketIO, send, emit
 import os
+import time
 
 app = Flask(__name__)
 sio = SocketIO(app)
@@ -58,6 +59,7 @@ def choice(data):
         sio.emit("userresp", data)
     else:
         data["choice"] = (players[0]["choice"]+1) % 2
+        players.append(data)
         sio.emit("userresp", data)
     sio.emit("begin", gdata)
     # print(data)

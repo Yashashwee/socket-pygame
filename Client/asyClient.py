@@ -14,9 +14,10 @@ from room import Room1
 from rgb import WHITE, RED, BLACK
 import socketio
 import pygame
+from predict import predict_player_pos
 #import asyncio
 
-sio = socketio.Client()
+sio = socketio.AsyncClient()
 setDelay = 0
 frameDiff = 0
 player = Player(50, 50, WHITE)
@@ -33,7 +34,6 @@ def connect():
     temp = "I'm connected!"
     print(temp)
 
-
     # p = int(input("Testing emit enter number greater than 0 "))
     # if p > 0:
     #     sio.emit('input', {'number': p})
@@ -42,25 +42,24 @@ user = None
 
 
 @sio.on('begin')
-def beginGame(data):
+async def beginGame(data):
     """
     :parameter: data
     """
     global gdata
-    if setDelay != 0:
-        time.sleep(setDelay/1000)
+    await sio.sleep(setDelay/1000)
     gdata = data
 
 
 @sio.on('error')
-def error(msg):
+async def error(msg):
     """
     :parameter: msg
     """
     print(msg)
     global player
     global danner
-    sio.emit("terminate", sio.sid)
+    await sio.emit("terminate", sio.sid)
     player.show_go_screen()
     # pygame.quit()
     time.sleep(2)
@@ -68,95 +67,16 @@ def error(msg):
 
 
 @sio.on('userresp')
-def resp(data):
+async def resp(data):
     """
     :parameter: data
     """
     global user
-    print(data)
     if user != None and data["name"] == user["name"]:
         user = data
 
 
-def distance(x1, y1, x2, y2):
-    return math.sqrt((y1-y2)**2 + (x1-x2)**2)
-
-
-def predict_player_pos(pos1, pos2, val):
-    """ Basically the objective of player is to
-        maximize its distance from danner and 
-        minimize its distance from winning position
-        that has been implemented
-        """
-    if(val == 0):  # its a player
-        points = []
-        x = pos1[0]
-        y = pos1[1]
-        points.append([x-7, y+7])
-        points.append([x, y+7])
-        points.append([x+7, y+7])
-        points.append([x+7, y])
-        points.append([x+7, y-7])
-        points.append([x, y-7])
-        points.append([x-7, y-7])
-        points.append([x-7, y])
-
-        # print("POINTS = ",points)
-
-        dist_p2 = []
-
-        for i in range(8):
-            dist_p2.append(
-                distance(points[i][0], points[i][1], pos2[0], pos2[1]))
-
-        dist_win = []
-        for i in range(8):
-            dist_win.append(distance(points[i][0], points[i][1], 802, 295))
-
-        dist = []
-        for i in range(8):
-            dist.append(dist_p2[i]/dist_win[i])
-
-        max1 = dist[0]
-        maxpos = 0
-
-        for i in range(1, 8):
-            if(dist[i] > max1):
-                max1 = dist[i]
-                maxpos = i
-
-        return([points[maxpos][0], points[maxpos][1]])
-
-    else:  # its a danner
-        points = []
-        x = pos1[0]
-        y = pos1[1]
-        points.append([x-7, y+7])
-        points.append([x, y+7])
-        points.append([x+7, y+7])
-        points.append([x+7, y])
-        points.append([x+7, y-7])
-        points.append([x, y-7])
-        points.append([x-7, y-7])
-        points.append([x-7, y])
-
-        dist = []
-
-        for i in range(8):
-            dist.append(distance(points[i][0], points[i][1], pos2[0], pos2[1]))
-
-        min1 = dist[0]
-        minpos = 0
-
-        for i in range(1, 8):
-            if(dist[i] < min1):
-                min1 = dist[i]
-                minpos = i
-
-        return([points[minpos][0], points[minpos][1]])
-
-
-def main():
+async def main():
     """ Main Program """
     global user
     pname = input("Enter player name ")
@@ -243,12 +163,12 @@ def main():
         if user["choice"] == 0:
 
             danner.set_position(gdata["Danner"], current_room.wall_list)
-            sio.emit("nextkey", {"Player": [
+            await sio.emit("nextkey", {"Player": [
                 player.rect.x, player.rect.y], "Danner": None, "frameNo": frameNo, "winner": None, "delay": setDelay})
         else:
             player.set_position(gdata["Player"], current_room.wall_list)
-            sio.emit("nextkey", {"Player": None, "Danner": [
-                     danner.rect.x, danner.rect.y], "frameNo": frameNo, "winner": None, "delay": setDelay})
+            await sio.emit("nextkey", {"Player": None, "Danner": [
+                danner.rect.x, danner.rect.y], "frameNo": frameNo, "winner": None, "delay": setDelay})
         screen.fill(BLACK)
         if gdata != None:
             if gdata["winner"] != None:
@@ -300,6 +220,7 @@ def main():
 if __name__ == "__main__":
     if (len(sys.argv)) > 1:
         setDelay = int(sys.argv[1])
-    sio.connect('http://0.0.0.0:5004')
+    # sio.connect('http://0.0.0.0:5004')
     # sio.connect("https://socket-game-project.herokuapp.com/")
+
     main()
