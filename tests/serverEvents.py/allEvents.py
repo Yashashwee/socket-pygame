@@ -12,7 +12,9 @@ sio = socketio.Client()
 
 
 class test_serverEvents(unittest.TestCase):
+    """ server events testing class"""
     def test_events(self):
+        """testing server events"""
         #sio.emit("input", sio.sid, callback=checkReturn)
         with open("testOP.txt", "r") as f1, open("sample.txt", "r") as f2:
             lines1 = f1.readlines()

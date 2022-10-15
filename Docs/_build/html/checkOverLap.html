@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>collision module &mdash; MazeGame 1.000 documentation</title>
+  <title>checkOverLap module &mdash; MazeGame 1.000 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="test module" href="test.html" />
-    <link rel="prev" title="conclusion_test module" href="conclusion_test.html" /> 
+    <link rel="next" title="game" href="tests.html" />
+    <link rel="prev" title="predict module" href="predict.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,23 +44,27 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">game</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">game</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="players.html">players module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgb.html">rgb module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="room.html">room module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html">server module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html">client module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asyClient.html">asyClient module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flaskserver.html">flaskserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predict.html">predict module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">checkOverLap module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#checkOverLap.checkOverlap"><code class="docutils literal notranslate"><span class="pre">checkOverlap()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tests:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="tests.html">game</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="connection.html">connection module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="game_conclusion.html">game_conclusion module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="conclusion_test.html">conclusion_test module</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">collision module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#collision.checkOverlap"><code class="docutils literal notranslate"><span class="pre">checkOverlap()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="test.html">test module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="allEvents.html">allEvents module</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tests.html">game</a></li>
 </ul>
 
         </div>
@@ -77,10 +81,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="tests.html">game</a> &raquo;</li>
-      <li>collision module</li>
+          <li><a href="modules.html">game</a> &raquo;</li>
+      <li>checkOverLap module</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/collision.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/checkOverLap.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -88,14 +92,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-collision">
-<span id="collision-module"></span><h1>collision module<a class="headerlink" href="#module-collision" title="Permalink to this heading"></a></h1>
+  <section id="module-checkOverLap">
+<span id="checkoverlap-module"></span><h1>checkOverLap module<a class="headerlink" href="#module-checkOverLap" title="Permalink to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="collision.checkOverlap">
-<span class="sig-prename descclassname"><span class="pre">collision.</span></span><span class="sig-name descname"><span class="pre">checkOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">danner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/collision.html#checkOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#collision.checkOverlap" title="Permalink to this definition"></a></dt>
-<dd><p>Get player 1 postion and its center of mass .
-Get player 2 postion and its cemter of mass
-. Check collision using the distance logic</p>
+<dt class="sig sig-object py" id="checkOverLap.checkOverlap">
+<span class="sig-prename descclassname"><span class="pre">checkOverLap.</span></span><span class="sig-name descname"><span class="pre">checkOverlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">danner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkOverLap.html#checkOverlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkOverLap.checkOverlap" title="Permalink to this definition"></a></dt>
+<dd><div class="line-block">
+<div class="line">checking the overlap of player and danner</div>
+<div class="line">parameter 1: player</div>
+<div class="line">parameter 2: danner</div>
+</div>
 </dd></dl>
 
 </section>
@@ -104,8 +110,8 @@ Get player 2 postion and its cemter of mass
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="conclusion_test.html" class="btn btn-neutral float-left" title="conclusion_test module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="test.html" class="btn btn-neutral float-right" title="test module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="predict.html" class="btn btn-neutral float-left" title="predict module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tests.html" class="btn btn-neutral float-right" title="game" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

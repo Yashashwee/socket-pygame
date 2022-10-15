@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; MazeGame 1.000 documentation</title>
+  <title>checkOverLap &mdash; MazeGame 1.000 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -63,7 +63,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Overview: module code</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>checkOverLap</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,22 +73,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="allEvents.html">allEvents</a></li>
-<li><a href="app.html">app</a></li>
-<li><a href="asyClient.html">asyClient</a></li>
-<li><a href="checkOverLap.html">checkOverLap</a></li>
-<li><a href="client.html">client</a></li>
-<li><a href="collision.html">collision</a></li>
-<li><a href="conclusion_test.html">conclusion_test</a></li>
-<li><a href="connection.html">connection</a></li>
-<li><a href="flaskserver.html">flaskserver</a></li>
-<li><a href="game_conclusion.html">game_conclusion</a></li>
-<li><a href="players.html">players</a></li>
-<li><a href="predict.html">predict</a></li>
-<li><a href="room.html">room</a></li>
-<li><a href="server.html">server</a></li>
-</ul>
+  <h1>Source code for checkOverLap</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="checkOverlap"><a class="viewcode-back" href="../checkOverLap.html#checkOverLap.checkOverlap">[docs]</a><span></span><span class="k">def</span> <span class="nf">checkOverlap</span><span class="p">(</span><span class="n">player</span><span class="p">,</span> <span class="n">danner</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    | checking the overlap of player and danner</span>
+<span class="sd">    | parameter 1: player</span>
+<span class="sd">    | parameter 2: danner</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l1</span> <span class="o">=</span> <span class="n">player</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="p">[</span><span class="n">l1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> <span class="n">l1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">15</span><span class="p">]</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="n">danner</span>
+
+    <span class="n">r2</span> <span class="o">=</span> <span class="p">[</span><span class="n">l2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> <span class="n">l2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">15</span><span class="p">]</span>
+    <span class="c1"># If one rectangle is on left side of other</span>
+    <span class="k">if</span> <span class="n">l1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">l2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">r1</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># If one rectangle is above other</span>
+    <span class="k">if</span> <span class="n">r1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">r2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">l1</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
 
            </div>
           </div>

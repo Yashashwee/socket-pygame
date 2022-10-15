@@ -1,4 +1,9 @@
 def checkOverlap(player, danner):
+    """
+    | checking the overlap of player and danner
+    | parameter 1: player
+    | parameter 2: danner
+    """
     l1 = player
     r1 = [l1[0]+15, l1[1]-15]
     l2 = danner

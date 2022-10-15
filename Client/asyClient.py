@@ -30,6 +30,9 @@ temp = None
 
 @sio.event
 def connect():
+    """
+    connection establishment
+    """
     global temp
     temp = "I'm connected!"
     print(temp)

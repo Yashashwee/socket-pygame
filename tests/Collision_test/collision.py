@@ -1,9 +1,10 @@
 import math
 
 def checkOverlap(player, danner):
-	"""Get player 1 postion and its cemter of mass"""
-	"""Get player 2 postion and its cemter of mass"""
-	"""Check collision using the distance logic"""
+	"""Get player 1 postion and its center of mass .
+	Get player 2 postion and its cemter of mass
+	. Check collision using the distance logic
+	"""
 	l1 = player
 	r1 = [l1[0]+15, l1[1]-15]
 	l2 = danner
