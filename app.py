@@ -36,12 +36,29 @@ gdata = {"Player": [50, 50], "Danner": [
     100, 100], "frameNo": [0, 0], "winner": None}
 frames = [0, 0]
 
-sio.emit('begin', gdata)
+# sio.emit('begin', gdata)
 
 
 @app.route('/')
 def index():
     return "Hello"
+
+
+@sio.on('testoverlap')
+def testOverlap(Coords):
+    player = Coords[0]
+    danner = Coords[1]
+    return checkOverlap(player, danner)
+
+
+@sio.on('resetPlayers')
+def reset():
+    global players
+    global gdata
+    players = []
+    gdata = {"Player": [50, 50], "Danner": [
+        100, 100], "frameNo": 0, "winner": None}
+    return "RESET!!!"
 
 
 @sio.on('user')
@@ -59,11 +76,16 @@ def choice(data):
         print(data)
         sio.emit("userresp", data)
     else:
+        # if players[0]["choice"] == data["choice"]:
         data["choice"] = (players[0]["choice"]+1) % 2
         players.append(data)
         sio.emit("userresp", data)
+        # else:
+        #     data["choice"] = data["choice"] % 2
+        #     players.append(data)
+        #     sio.emit("userresp", data)
     sio.emit("begin", gdata)
-    # print(data)
+    return gdata, data
 
 
 @sio.on('message')
@@ -72,6 +94,7 @@ def print_message(message):
     :parameter: message
     """
     print(message)
+    return message
 
 
 @sio.on('input')
@@ -82,6 +105,7 @@ def print_number(sid, num):
     :parameter 2: num
     """
     sio.emit('begin', None)
+    return sid
 
 
 @sio.on('nextkey')
@@ -105,6 +129,7 @@ def nextKey(data):
     gdata["frameNo"] = frames
     # time.sleep(data["delay"]/1000)
     sio.emit('begin', gdata)
+    return gdata
 
 
 @sio.event
