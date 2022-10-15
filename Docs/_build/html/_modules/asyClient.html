@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>client &mdash; MazeGame 1.000 documentation</title>
+  <title>asyClient &mdash; MazeGame 1.000 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -64,7 +64,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Module code</a> &raquo;</li>
-      <li>client</li>
+      <li>asyClient</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -73,11 +73,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for client</h1><div class="highlight"><pre>
+  <h1>Source code for asyClient</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">random</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">abc</span>
     <span class="n">collections</span><span class="o">.</span><span class="n">MutableMapping</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">MutableMapping</span>
@@ -91,12 +90,12 @@
 <span class="kn">from</span> <span class="nn">rgb</span> <span class="kn">import</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">RED</span><span class="p">,</span> <span class="n">BLACK</span>
 <span class="kn">import</span> <span class="nn">socketio</span>
 <span class="kn">import</span> <span class="nn">pygame</span>
-<span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="c1">#import asyncio</span>
+<span class="kn">from</span> <span class="nn">predict</span> <span class="kn">import</span> <span class="n">predict_player_pos</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
 
-<span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+<span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">()</span>
 <span class="n">setDelay</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">frameDiff</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">frameDiff</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">player</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">)</span>
 <span class="n">danner</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">RED</span><span class="p">)</span>
 
@@ -105,12 +104,11 @@
 <span class="n">temp</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="connect"><a class="viewcode-back" href="../client.html#client.connect">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
+<div class="viewcode-block" id="connect"><a class="viewcode-back" href="../asyClient.html#asyClient.connect">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">temp</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m connected!&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span></div>
-
 
     <span class="c1"># p = int(input(&quot;Testing emit enter number greater than 0 &quot;))</span>
     <span class="c1"># if p &gt; 0:</span>
@@ -119,50 +117,49 @@
 <span class="n">user</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="beginGame"><a class="viewcode-back" href="../client.html#client.beginGame">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">beginGame</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="beginGame"><a class="viewcode-back" href="../asyClient.html#asyClient.beginGame">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">beginGame</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :parameter: data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">gdata</span>
-    <span class="k">if</span> <span class="n">setDelay</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">setDelay</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">setDelay</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
     <span class="n">gdata</span> <span class="o">=</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="error"><a class="viewcode-back" href="../client.html#client.error">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+<div class="viewcode-block" id="error"><a class="viewcode-back" href="../asyClient.html#asyClient.error">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :parameter: msg</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">global</span> <span class="n">player</span>
     <span class="k">global</span> <span class="n">danner</span>
-    <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;terminate&quot;</span><span class="p">,</span> <span class="n">sio</span><span class="o">.</span><span class="n">sid</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;terminate&quot;</span><span class="p">,</span> <span class="n">sio</span><span class="o">.</span><span class="n">sid</span><span class="p">)</span>
     <span class="n">player</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span>
     <span class="c1"># pygame.quit()</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="resp"><a class="viewcode-back" href="../client.html#client.resp">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;userresp&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">resp</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="resp"><a class="viewcode-back" href="../asyClient.html#asyClient.resp">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;userresp&#39;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">resp</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :parameter: data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">user</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]:</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../client.html#client.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../asyClient.html#asyClient.main">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Main Program &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">user</span>
+    <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;http://0.0.0.0:5004&#39;</span><span class="p">)</span>
     <span class="n">pname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter player name &quot;</span><span class="p">)</span>
     <span class="n">choice</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter 0 for player 1 for danner &quot;</span><span class="p">))</span>
     <span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">pname</span><span class="p">,</span> <span class="s2">&quot;choice&quot;</span><span class="p">:</span> <span class="n">choice</span><span class="p">}</span>
-    <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+    <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
 
     <span class="c1"># Call this function so the Pygame library can initialize itself</span>
     <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
@@ -171,7 +168,7 @@
     <span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">])</span>
 
     <span class="c1"># Set the title of the window</span>
-    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">pname</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s1">&#39;Pakdam Pakdai&#39;</span><span class="p">)</span>
 
     <span class="c1"># Create the player paddle object</span>
     <span class="k">global</span> <span class="n">player</span>
@@ -193,7 +190,6 @@
         <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
                 <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">:</span>
@@ -240,17 +236,16 @@
         <span class="n">player</span><span class="o">.</span><span class="n">move_player</span><span class="p">(</span><span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">,</span> <span class="n">danner</span><span class="p">)</span>
 
         <span class="n">danner</span><span class="o">.</span><span class="n">move_danner</span><span class="p">(</span><span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">0.25</span><span class="p">:</span>
-            <span class="n">sio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">setDelay</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">setDelay</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 
             <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
-            <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;nextkey&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;nextkey&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="p">[</span>
                 <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">setDelay</span><span class="p">})</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
-            <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;nextkey&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="p">[</span>
-                     <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">setDelay</span><span class="p">})</span>
+            <span class="k">await</span> <span class="n">sio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;nextkey&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Player&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Danner&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="s2">&quot;frameNo&quot;</span><span class="p">:</span> <span class="n">frameNo</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">setDelay</span><span class="p">})</span>
         <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BLACK</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">gdata</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;winner&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
@@ -260,16 +255,14 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">roleChoice</span><span class="p">[</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">show_go_screen</span><span class="p">()</span>
 
-            <span class="c1"># if frameNo-gdata[&quot;frameNo&quot;][user[&quot;choice&quot;]] &gt; frameDiff:</span>
+            <span class="c1"># if frameNo-gdata[&quot;frameNo&quot;] &gt; frameDiff:</span>
             <span class="c1">#     if user[&quot;choice&quot;] == 0:</span>
             <span class="c1">#         player.set_position(gdata[&quot;Player&quot;])</span>
             <span class="c1">#     else:</span>
             <span class="c1">#         danner.set_position(gdata[&quot;Danner&quot;])</span>
-            <span class="c1">#     frameNo = gdata[&quot;frameNo&quot;][user[&quot;choice&quot;]]</span>
-            <span class="c1"># print(&quot;Self frame = &quot;,frameNo-gdata[&quot;frameNo&quot;][user[&quot;choice&quot;]])</span>
-            <span class="c1"># print(&quot;different frame = &quot;,frameNo-gdata[&quot;frameNo&quot;][(user[&quot;choice&quot;]+1)%2])</span>
+            <span class="c1">#     frameNo = gdata[&quot;frameNo&quot;]</span>
 
-            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">][</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="n">frameDiff</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">frameDiff</span><span class="p">:</span>
                 <span class="k">if</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="c1"># prediction logic for danner</span>
                     <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">predict_player_pos</span><span class="p">(</span>
@@ -279,8 +272,7 @@
                     <span class="n">player</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">predict_player_pos</span><span class="p">(</span>
                         <span class="p">[</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">][</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]]</span> <span class="o">&lt;=</span> <span class="n">frameDiff</span><span class="p">:</span>
-                <span class="c1"># print(&quot;ROLLBACK FOLKS!!&quot;)</span>
+            <span class="k">if</span> <span class="n">frameNo</span><span class="o">-</span><span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">frameDiff</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="c1"># Rollback:</span>
                     <span class="k">if</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">player</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Player&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
@@ -291,7 +283,7 @@
                     <span class="k">if</span><span class="p">(</span><span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">danner</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
                         <span class="n">danner</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span>
                             <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;Danner&quot;</span><span class="p">],</span> <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="p">)</span>
-                <span class="c1"># frameNo = gdata[&quot;frameNo&quot;][user[&quot;choice&quot;]]</span>
+                <span class="n">frameNo</span> <span class="o">=</span> <span class="n">gdata</span><span class="p">[</span><span class="s2">&quot;frameNo&quot;</span><span class="p">]</span>
 
         <span class="n">movingsprites</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
         <span class="n">current_room</span><span class="o">.</span><span class="n">wall_list</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
@@ -305,9 +297,9 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">setDelay</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">sio</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;http://10.194.33.76:5004&#39;</span><span class="p">)</span>
+    <span class="c1"># sio.connect(&#39;http://0.0.0.0:5004&#39;)</span>
     <span class="c1"># sio.connect(&quot;https://socket-game-project.herokuapp.com/&quot;)</span>
-    <span class="n">main</span><span class="p">()</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 
            </div>

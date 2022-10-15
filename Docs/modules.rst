@@ -10,4 +10,6 @@ game
    room
    server
    client
+   asyClient
    flaskserver
+   predict
