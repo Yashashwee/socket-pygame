@@ -19,7 +19,7 @@ import pygame
 
 sio = socketio.Client()
 setDelay = 0
-frameDiff = 5
+frameDiff = 3
 player = Player(50, 50, WHITE)
 danner = Player(100, 100, RED)
 
@@ -62,6 +62,7 @@ def error(msg):
     global player
     global danner
     sio.emit("terminate", sio.sid)
+    frameNo = (frameNo+1) % 10000000001
     player.show_go_screen()
     # pygame.quit()
     time.sleep(2)
@@ -267,8 +268,10 @@ def main():
             #     else:
             #         danner.set_position(gdata["Danner"])
             #     frameNo = gdata["frameNo"][user["choice"]]
-            print(frameNo-gdata["frameNo"][user["choice"]])
-            if frameNo-gdata["frameNo"][user["choice"]] > frameDiff and random.random() <= 0.5:
+            print("Self frame = ",frameNo-gdata["frameNo"][user["choice"]])
+            # print("different frame = ",frameNo-gdata["frameNo"][(user["choice"]+1)%2])
+
+            if frameNo-gdata["frameNo"][user["choice"]] > frameDiff:
                 if(user["choice"] == 0):
                     # prediction logic for danner
                     danner.set_position(predict_player_pos(
@@ -279,6 +282,7 @@ def main():
                         [player.rect.x, player.rect.y], [danner.rect.x, danner.rect.y], 0), current_room.wall_list)
 
             if frameNo-gdata["frameNo"][user["choice"]] <= frameDiff:
+                print("ROLLBACK FOLKS!!")
                 if user["choice"] == 0:
                     # Rollback:
                     if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1]):
@@ -289,7 +293,7 @@ def main():
                     if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1]):
                         danner.set_position(
                             gdata["Danner"], current_room.wall_list)
-                frameNo = gdata["frameNo"][user["choice"]]
+                # frameNo = gdata["frameNo"][user["choice"]]
 
         movingsprites.draw(screen)
         current_room.wall_list.draw(screen)
@@ -303,6 +307,6 @@ def main():
 if __name__ == "__main__":
     if (len(sys.argv)) > 1:
         setDelay = int(sys.argv[1])
-    sio.connect('http://0.0.0.0:5004')
+    sio.connect('http://10.194.33.76:5004')
     # sio.connect("https://socket-game-project.herokuapp.com/")
     main()
