@@ -1,4 +1,5 @@
 import math
+import time
 import collections
 try:
     from collections import abc
@@ -23,12 +24,15 @@ danner = Player(100, 100, RED)
 
 roleChoice = {0: player, 1: danner}
 
-temp=None
+temp = None
+
+
 @sio.event
 def connect():
     global temp
-    temp="I'm connected!"
+    temp = "I'm connected!"
     print(temp)
+
 
     # p = int(input("Testing emit enter number greater than 0 "))
     # if p > 0:
@@ -55,8 +59,9 @@ def error(msg):
     global player
     global danner
     sio.emit("terminate", sio.sid)
-    # player.show_go_screen()
+    player.show_go_screen()
     # pygame.quit()
+    time.sleep(2)
     os._exit(1)
 
 
@@ -70,38 +75,41 @@ def resp(data):
     if user != None and data["name"] == user["name"]:
         user = data
 
-def distance(x1,y1,x2,y2):
+
+def distance(x1, y1, x2, y2):
     return math.sqrt((y1-y2)**2 + (x1-x2)**2)
 
-def predict_player_pos(pos1,pos2,val):
+
+def predict_player_pos(pos1, pos2, val):
     """ Basically the objective of player is to
         maximize its distance from danner and 
         minimize its distance from winning position
         that has been implemented
         """
-    if(val==0):# its a player
+    if(val == 0):  # its a player
         points = []
         x = pos1[0]
         y = pos1[1]
-        points.append([x-7,y+7])
-        points.append([x,y+7])
-        points.append([x+7,y+7])
-        points.append([x+7,y])
-        points.append([x+7,y-7])
-        points.append([x,y-7])
-        points.append([x-7,y-7])
-        points.append([x-7,y])
+        points.append([x-7, y+7])
+        points.append([x, y+7])
+        points.append([x+7, y+7])
+        points.append([x+7, y])
+        points.append([x+7, y-7])
+        points.append([x, y-7])
+        points.append([x-7, y-7])
+        points.append([x-7, y])
 
         # print("POINTS = ",points)
 
         dist_p2 = []
 
         for i in range(8):
-            dist_p2.append(distance(points[i][0],points[i][1],pos2[0],pos2[1]))
+            dist_p2.append(
+                distance(points[i][0], points[i][1], pos2[0], pos2[1]))
 
         dist_win = []
         for i in range(8):
-            dist_win.append(distance(points[i][0],points[i][1],802,295))
+            dist_win.append(distance(points[i][0], points[i][1], 802, 295))
 
         dist = []
         for i in range(8):
@@ -110,40 +118,41 @@ def predict_player_pos(pos1,pos2,val):
         max1 = dist[0]
         maxpos = 0
 
-        for i in range(1,8):
-            if(dist[i]>max1):
+        for i in range(1, 8):
+            if(dist[i] > max1):
                 max1 = dist[i]
                 maxpos = i
 
-        return([points[maxpos][0],points[maxpos][1]])
+        return([points[maxpos][0], points[maxpos][1]])
 
-    else:# its a danner
+    else:  # its a danner
         points = []
         x = pos1[0]
         y = pos1[1]
-        points.append([x-7,y+7])
-        points.append([x,y+7])
-        points.append([x+7,y+7])
-        points.append([x+7,y])
-        points.append([x+7,y-7])
-        points.append([x,y-7])
-        points.append([x-7,y-7])
-        points.append([x-7,y])
+        points.append([x-7, y+7])
+        points.append([x, y+7])
+        points.append([x+7, y+7])
+        points.append([x+7, y])
+        points.append([x+7, y-7])
+        points.append([x, y-7])
+        points.append([x-7, y-7])
+        points.append([x-7, y])
 
         dist = []
 
         for i in range(8):
-            dist.append(distance(points[i][0],points[i][1],pos2[0],pos2[1]))
+            dist.append(distance(points[i][0], points[i][1], pos2[0], pos2[1]))
 
         min1 = dist[0]
         minpos = 0
 
-        for i in range(1,8):
-            if(dist[i]<min1):
+        for i in range(1, 8):
+            if(dist[i] < min1):
                 min1 = dist[i]
                 minpos = i
 
-        return([points[minpos][0],points[minpos][1]])
+        return([points[minpos][0], points[minpos][1]])
+
 
 def main():
     """ Main Program """
@@ -244,7 +253,7 @@ def main():
                     roleChoice[gdata["winner"]].show_win_screen()
                 else:
                     roleChoice[user["choice"]].show_go_screen()
-            
+
             # if frameNo-gdata["frameNo"] > frameDiff:
             #     if user["choice"] == 0:
             #         player.set_position(gdata["Player"])
@@ -253,21 +262,23 @@ def main():
             #     frameNo = gdata["frameNo"]
 
             if frameNo-gdata["frameNo"] > frameDiff:
-                if(user["choice"]==0):
+                if(user["choice"] == 0):
                     # prediction logic for danner
-                    danner.set_position(predict_player_pos([danner.rect.x,danner.rect.y],[player.rect.x,player.rect.y],1))
+                    danner.set_position(predict_player_pos(
+                        [danner.rect.x, danner.rect.y], [player.rect.x, player.rect.y], 1))
                 else:
-                    #Prediction logic for player 
-                    player.set_position(predict_player_pos([player.rect.x,player.rect.y],[danner.rect.x,danner.rect.y],0))
+                    # Prediction logic for player
+                    player.set_position(predict_player_pos(
+                        [player.rect.x, player.rect.y], [danner.rect.x, danner.rect.y], 0))
 
             if frameNo-gdata["frameNo"] <= frameDiff:
                 if user["choice"] == 0:
-                    #Rollback:
-                    if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1] ):
+                    # Rollback:
+                    if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1]):
                         player.set_position(gdata["Player"])
                 else:
-                    #Rollback
-                    if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1] ):
+                    # Rollback
+                    if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1]):
                         danner.set_position(gdata["Danner"])
                 frameNo = gdata["frameNo"]
 

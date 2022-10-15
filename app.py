@@ -131,6 +131,8 @@ def disconnect():
     players = []
     gdata = {"Player": [50, 50], "Danner": [
         100, 100], "frameNo": 0, "winner": None}
+    print(gdata)
+    sio.emit("begin", gdata)
     sio.emit("error", "Other player diconneted")
 
 
@@ -139,7 +141,6 @@ def disconnect():
 #     # Closing connection
 #     print(sid)
 #     sio.close_room(sid)
-
 
 if __name__ == '__main__':
     sio.run(app, debug=True, host='0.0.0.0', port=5004)
