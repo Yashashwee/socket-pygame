@@ -18,7 +18,7 @@ import pygame
 
 sio = socketio.Client()
 
-frameDiff = 7
+frameDiff = 0
 player = Player(50, 50, WHITE)
 danner = Player(100, 100, RED)
 
@@ -238,11 +238,11 @@ def main():
 
         danner.move_danner(current_room.wall_list, player)
         if user["choice"] == 0:
-            danner.set_position(gdata["Danner"],current_room.wall_list)
+            danner.set_position(gdata["Danner"], current_room.wall_list)
             sio.emit("nextkey", {"Player": [
                 player.rect.x, player.rect.y], "Danner": None, "frameNo": frameNo, "winner": None})
         else:
-            player.set_position(gdata["Player"],current_room.wall_list)
+            player.set_position(gdata["Player"], current_room.wall_list)
             sio.emit("nextkey", {"Player": None, "Danner": [
                      danner.rect.x, danner.rect.y], "frameNo": frameNo, "winner": None})
         screen.fill(BLACK)
@@ -265,21 +265,23 @@ def main():
                 if(user["choice"] == 0):
                     # prediction logic for danner
                     danner.set_position(predict_player_pos(
-                        [danner.rect.x, danner.rect.y], [player.rect.x, player.rect.y], 1),current_room.wall_list)
+                        [danner.rect.x, danner.rect.y], [player.rect.x, player.rect.y], 1), current_room.wall_list)
                 else:
                     # Prediction logic for player
                     player.set_position(predict_player_pos(
-                        [player.rect.x, player.rect.y], [danner.rect.x, danner.rect.y], 0),current_room.wall_list)
+                        [player.rect.x, player.rect.y], [danner.rect.x, danner.rect.y], 0), current_room.wall_list)
 
             if frameNo-gdata["frameNo"] <= frameDiff:
                 if user["choice"] == 0:
                     # Rollback:
                     if(player.rect.x != gdata["Player"][0] and player.rect.y != gdata["Player"][1]):
-                        player.set_position(gdata["Player"],current_room.wall_list)
+                        player.set_position(
+                            gdata["Player"], current_room.wall_list)
                 else:
                     # Rollback
                     if(danner.rect.x != gdata["Danner"][0] and danner.rect.y != gdata["Danner"][1]):
-                        danner.set_position(gdata["Danner"],current_room.wall_list)
+                        danner.set_position(
+                            gdata["Danner"], current_room.wall_list)
                 frameNo = gdata["frameNo"]
 
         movingsprites.draw(screen)
@@ -292,6 +294,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # sio.connect('http://10.194.33.76:5004')
-    sio.connect("https://socket-game-project.herokuapp.com/")
+    sio.connect('http://10.194.33.76:5004')
+    # sio.connect("https://socket-game-project.herokuapp.com/")
     main()

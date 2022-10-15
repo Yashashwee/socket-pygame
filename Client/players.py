@@ -46,14 +46,14 @@ class Player(pygame.sprite.Sprite):
         self.change_x += x
         self.change_y += y
 
-    def set_position(self, Coord=None,walls):
+    def set_position(self, Coord=None, walls=None):
         """ | Sets the position of the player.
         | parameter: Coord set to None
         """
         if Coord != None or len(Coord) != 0:
             self.rect.x = Coord[0]
             block_hit_list = pygame.sprite.spritecollide(self, walls, False)
-            
+
             for block in block_hit_list:
                 # If we are moving right, set our right side to the left side of
                 # the item we hit
@@ -72,7 +72,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.bottom = block.rect.top
                 else:
                     self.rect.top = block.rect.bottom
-                    
+
     def move_player(self, walls, player):
         """ | Find a new position for the player 
         | parameter1: walls
