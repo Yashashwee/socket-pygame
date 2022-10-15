@@ -76,15 +76,23 @@
   <h1>Source code for predict</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">math</span>
 <div class="viewcode-block" id="distance"><a class="viewcode-back" href="../predict.html#predict.distance">[docs]</a><span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    | calculate distance between two points</span>
+<span class="sd">    | parameter 1: x1</span>
+<span class="sd">    | parameter 2: y1</span>
+<span class="sd">    | parameter 3: x2</span>
+<span class="sd">    | parameter 4: y2</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">y1</span><span class="o">-</span><span class="n">y2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x1</span><span class="o">-</span><span class="n">x2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="predict_player_pos"><a class="viewcode-back" href="../predict.html#predict.predict_player_pos">[docs]</a><span class="k">def</span> <span class="nf">predict_player_pos</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Basically the objective of player is to</span>
-<span class="sd">        maximize its distance from danner and </span>
-<span class="sd">        minimize its distance from winning position</span>
-<span class="sd">        that has been implemented</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; | Basically the objective of player is to maximize its distance from danner and minimize its distance from winning position that has been implemented</span>
+<span class="sd">        | parameter 1: pos1</span>
+<span class="sd">        | parameter 2: pos2</span>
+<span class="sd">        | parameter 3: val</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span><span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># its a player</span>
         <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">pos1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>

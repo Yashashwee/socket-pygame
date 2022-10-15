@@ -13,6 +13,11 @@ from collision import *
 
 
 def conclusion(player,danner):
+	"""
+	| checking the win and loss logic of the game
+	| parameter 1: player
+	| parameter 2: danner
+	"""
 	if(checkOverlap(player,danner)):
 		return ([False,True])
 

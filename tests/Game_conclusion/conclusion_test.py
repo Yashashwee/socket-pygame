@@ -6,9 +6,10 @@ from game_conclusion import *
 
 # unit test
 class test_conclusion(unittest.TestCase):
-
+	"""unit test class"""
 	# checking if the player collision is done correctly
 	def test_p1_win(self):
+		""" player win logic testing """
 		self.assertEqual(conclusion([802,250],[100,110]),[True,False])
 		self.assertEqual(conclusion([802,265],[90,100]),[True,False])
 		self.assertEqual(conclusion([802,278],[100,90]),[True,False])
@@ -20,6 +21,7 @@ class test_conclusion(unittest.TestCase):
 		self.assertNotEqual(conclusion([800,184],[100,120]),[True,False])
 
 	def test_p2_win(self):
+		""" danner win logic testing """
 		self.assertEqual(conclusion([100,100],[110,100]),[False,True])
 		self.assertEqual(conclusion([201,184],[195,183]),[False,True])
 		self.assertEqual(conclusion([100,320],[90,315]),[False,True])
@@ -32,6 +34,7 @@ class test_conclusion(unittest.TestCase):
 		self.assertNotEqual(conclusion([800,184],[100,120]),[False,True])
 
 	def test_none_win(self):
+		""" none win logic testing """
 		self.assertEqual(conclusion([200,100],[110,100]),[False,False])
 		self.assertEqual(conclusion([232,100],[110,110]),[False,False])
 		self.assertEqual(conclusion([542,100],[90,110]),[False,False])
