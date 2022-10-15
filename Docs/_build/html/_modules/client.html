@@ -107,6 +107,9 @@
 
 <div class="viewcode-block" id="connect"><a class="viewcode-back" href="../client.html#client.connect">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    connection establishment </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">temp</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m connected!&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span></div>
@@ -122,7 +125,8 @@
 <div class="viewcode-block" id="beginGame"><a class="viewcode-back" href="../client.html#client.beginGame">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;begin&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">beginGame</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    :parameter: data</span>
+<span class="sd">    | starting game </span>
+<span class="sd">    | parameter: data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">gdata</span>
     <span class="k">if</span> <span class="n">setDelay</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -133,7 +137,8 @@
 <div class="viewcode-block" id="error"><a class="viewcode-back" href="../client.html#client.error">[docs]</a><span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    :parameter: msg</span>
+<span class="sd">    | error logic</span>
+<span class="sd">    | parameter: msg</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">global</span> <span class="n">player</span>
@@ -157,7 +162,9 @@
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../client.html#client.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Main Program &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Main Program for the game</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">user</span>
     <span class="n">pname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter player name &quot;</span><span class="p">)</span>
     <span class="n">choice</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter 0 for player 1 for danner &quot;</span><span class="p">))</span>

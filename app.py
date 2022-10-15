@@ -14,6 +14,11 @@ sio = SocketIO(app)
 
 
 def checkOverlap(player, danner):
+    """
+    | checking the overlap of player and danner
+    | parameter 1: player
+    | parameter 2: danner
+    """
     l1 = player
     r1 = [l1[0]+15, l1[1]-15]
     l2 = danner
@@ -47,7 +52,8 @@ def index():
 @sio.on('user')
 def choice(data):
     """
-    :parameter: data
+    | for the choice selection of user of player and danner
+    | parameter: data
     """
     global players
     global gdata
@@ -77,9 +83,9 @@ def print_message(message):
 @sio.on('input')
 def print_number(sid, num):
     """
-    Client info
-    :parameter 1: sid
-    :parameter 2: num
+    | Client info
+    | parameter 1: sid
+    | parameter 2: num
     """
     sio.emit('begin', None)
 
@@ -87,7 +93,8 @@ def print_number(sid, num):
 @sio.on('nextkey')
 def nextKey(data):
     """
-    :parameter: data:player name,position,etc.
+    | next key
+    | parameter: data:player name,position,etc.
     """
     global gdata
     global frames
@@ -109,7 +116,9 @@ def nextKey(data):
 
 @sio.event
 def disconnect():
-    # logic for disconnect
+    """
+    logic for disconnect
+    """
     global players
     players = []
     gdata = {"Player": [50, 50], "Danner": [
@@ -119,7 +128,9 @@ def disconnect():
 
 @sio.on('terminate')
 def terminate(sid):
-    # Closing connection
+    """
+    Closing connection
+    """
     print(sid)
     sio.close_room(sid)
 

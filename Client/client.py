@@ -31,6 +31,9 @@ temp = None
 
 @sio.event
 def connect():
+    """
+    connection establishment 
+    """
     global temp
     temp = "I'm connected!"
     print(temp)
@@ -46,7 +49,8 @@ user = None
 @sio.on('begin')
 def beginGame(data):
     """
-    :parameter: data
+    | starting game 
+    | parameter: data
     """
     global gdata
     if setDelay != 0:
@@ -57,7 +61,8 @@ def beginGame(data):
 @sio.on('error')
 def error(msg):
     """
-    :parameter: msg
+    | error logic
+    | parameter: msg
     """
     print(msg)
     global player
@@ -81,7 +86,9 @@ def resp(data):
 
 
 def main():
-    """ Main Program """
+    """ 
+    Main Program for the game
+    """
     global user
     pname = input("Enter player name ")
     choice = int(input("Enter 0 for player 1 for danner "))
