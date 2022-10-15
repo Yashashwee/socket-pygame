@@ -1,7 +1,7 @@
-clientOld module
+allEvents module
 ================
 
-.. automodule:: clientOld
+.. automodule:: allEvents
    :members:
    :undoc-members:
    :show-inheritance:
