@@ -8,13 +8,22 @@ try:
 except:
     pass
 import pygame
+import platform
 import sys
 import os
-from players import Player
-from room import Room1
-from rgb import WHITE, RED, BLACK
 import socketio
 import pygame
+
+if platform.system() == 'Linux':
+    fileSystemGoBack = '.'
+else:
+    fileSystemGoBack = '..'
+sys.path.insert(0, os.path.join(fileSystemGoBack, 'Game'))
+from rgb import WHITE, RED, BLACK
+from room import Room1
+from players import Player
+
+sys.path.insert(0, os.path.join(fileSystemGoBack, 'NetCode'))
 from predict import *
 #import asyncio
 
