@@ -15,7 +15,7 @@ from rgb import WHITE, RED, BLACK
 import socketio
 import pygame
 from predict import predict_player_pos
-#import asyncio
+import asyncio
 
 sio = socketio.AsyncClient()
 setDelay = 0
@@ -79,10 +79,11 @@ async def resp(data):
 async def main():
     """ Main Program """
     global user
+    await sio.connect('http://0.0.0.0:5004')
     pname = input("Enter player name ")
     choice = int(input("Enter 0 for player 1 for danner "))
     user = {"name": pname, "choice": choice}
-    sio.emit("user", user)
+    await sio.emit("user", user)
 
     # Call this function so the Pygame library can initialize itself
     pygame.init()
@@ -159,7 +160,7 @@ async def main():
         player.move_player(current_room.wall_list, danner)
 
         danner.move_danner(current_room.wall_list, player)
-        sio.sleep(setDelay/1000)
+        await sio.sleep(setDelay/1000)
         if user["choice"] == 0:
 
             danner.set_position(gdata["Danner"], current_room.wall_list)
@@ -222,5 +223,4 @@ if __name__ == "__main__":
         setDelay = int(sys.argv[1])
     # sio.connect('http://0.0.0.0:5004')
     # sio.connect("https://socket-game-project.herokuapp.com/")
-
-    main()
+    asyncio.run(main())
